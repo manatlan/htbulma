@@ -20,12 +20,12 @@ class Toaster(TagBulma):
         self["info"]="toaster"
         parent.add( self )
 
-    def show(self,content,delay=2000): #TODO: can't be called immediatly ;-( (coz __caller__ for js interact)
+    def show(self,*content,delay=2000): #TODO: can't be called immediatly ;-( (coz __caller__ for js interact)
         self.clear()
 
         jsclose= self.bind.close()
 
-        o = Tag.div( _id="aeff",_class="notification has-text-light has-background-grey",_style = "position:fixed;left:0px;right:0px;bottom:0px;z-index:1000")
+        o = Tag.div( _class="notification has-text-light has-background-grey",_style = "position:fixed;left:0px;right:0px;bottom:0px;z-index:1000")
         o.add( Tag.button(_class="delete", _onclick=jsclose) )
         o.add( content )
 
@@ -44,7 +44,7 @@ if __name__=="__main__":
     Toaster.__call__ = lambda x,y:x
 
     obj=Tag( )
-    Toaster(obj).show("YO")
+    Toaster(obj).show( Button("HELLO"), "Hello" )
 
     from .. import _test
     _test( obj )
