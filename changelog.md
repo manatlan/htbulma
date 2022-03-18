@@ -1,3 +1,9 @@
+### 0.0.5 "revert, bad idea" 2022/03/18
+
+ * tabs from tab, are no more in a Box() ;-)
+ * revert : Toaster.show(content) take only one object
+ * revert : MBox.show(content) take only one object
+
 ### 0.0.4 "multi contents" 2022/03/17
 
  * Toaster.show(*content) can take multiple objects

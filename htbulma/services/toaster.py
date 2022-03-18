@@ -20,7 +20,7 @@ class Toaster(TagBulma):
         self["info"]="toaster"
         parent.add( self )
 
-    def show(self,*content,delay=2000): #TODO: can't be called immediatly ;-( (coz __caller__ for js interact)
+    def show(self,content,delay=2000): #TODO: can't be called immediatly ;-( (coz __caller__ for js interact)
         self.clear()
 
         jsclose= self.bind.close()
@@ -44,7 +44,7 @@ if __name__=="__main__":
     Toaster.__call__ = lambda x,y:x
 
     obj=Tag( )
-    Toaster(obj).show( Button("HELLO"), "Hello" )
+    Toaster(obj).show( Box("Hello") )
 
     from .. import _test
     _test( obj )

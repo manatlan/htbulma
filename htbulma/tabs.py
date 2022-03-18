@@ -6,7 +6,7 @@
 #
 # https://github.com/manatlan/htbulma
 # #############################################################################
-from . import TagBulma,TabsHeader,Box
+from . import TagBulma,TabsHeader,Content
 
 class Tabs(TagBulma): # New version (htag optimized, but can bo better with built lately)
 
@@ -31,7 +31,7 @@ class Tabs(TagBulma): # New version (htag optimized, but can bo better with buil
         if self.__selected:
             if len(ll)>0:
                 self <= TabsHeader(self.__selected, ll, onchange=self._setselected )
-                self <= Box(self.__tabs[ self.__selected ])
+                self <= self.__tabs[ self.__selected ]
 
     @property
     def selected(self):

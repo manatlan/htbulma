@@ -7,6 +7,12 @@
 # https://github.com/manatlan/htbulma
 # #############################################################################
 
+"""
+Only containers can contain multiple objects ...
+(like Box(*obj))
+
+"""
+
 from htag import Tag
 from . import TagBulma
 
