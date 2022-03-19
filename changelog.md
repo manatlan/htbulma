@@ -1,3 +1,8 @@
+### 0.0.6 "my name is" 2022/03/19
+
+ * add a meta tag with htbulma version used in rendering
+ * add some spaces in Tags()
+
 ### 0.0.5 "revert, bad idea" 2022/03/18
 
  * tabs from tab, are no more in a Box() ;-)

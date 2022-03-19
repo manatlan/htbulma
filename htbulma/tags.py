@@ -40,6 +40,7 @@ class Tags(TagBulma):
             else:
                 if i in self.tags:
                     self.add(Tag.span(i, _class="tag is-success"))
+            self.add(" ")
 
     def switch(self, t):
         if t in self.tags:
