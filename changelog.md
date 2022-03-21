@@ -1,3 +1,8 @@
+### 0.0.7 "add form" 2022/03/20
+
+ * add Form() object (which onsubmit json formdata without redrawing itself)
+ * inputs don't redraw itself after onchange
+
 ### 0.0.6 "my name is" 2022/03/19
 
  * add a meta tag with htbulma version used in rendering

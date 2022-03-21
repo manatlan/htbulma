@@ -34,6 +34,7 @@ class InputText(TagBulma): # not HTAG OPTIMIZED
         if self.onchange:
             self.onchange(self.value)
         self.update()
+        return 0 # avoid redrawing itself
 
 
 class TextArea(TagBulma):    # not HTAG OPTIMIZED
@@ -59,6 +60,7 @@ class TextArea(TagBulma):    # not HTAG OPTIMIZED
         if self.onchange:
             self.onchange(self.value)
         self.update()
+        return 0 # avoid redrawing itself
 
 class Checkbox(TagBulma):
     tag="div"
@@ -94,6 +96,8 @@ class Checkbox(TagBulma):
         if self.onchange:
             self.onchange(self.value)
         self.update()
+        return 0 # avoid redrawing itself
+
 
 
 
@@ -115,6 +119,7 @@ class Slider(TagBulma):
         self["value"] = v
         if self.onchange:
             self.onchange(v)
+        return 0 # avoid redrawing itself
 
 if __name__=="__main__":
     obj=Tag.div( )
