@@ -1,3 +1,7 @@
+### 0.0.8 "add form" 2022/03/22
+
+ * use "Tag.NoRender" from htag>=0.0.16 (in place of return 0)
+
 ### 0.0.7 "add form" 2022/03/20
 
  * add Form() object (which onsubmit json formdata without redrawing itself)

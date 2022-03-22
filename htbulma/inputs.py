@@ -29,12 +29,12 @@ class InputText(TagBulma): # not HTAG OPTIMIZED
         self["disabled"]=self.disabled
         self["value"]= self.value
 
+    @Tag.NoRender # avoid redrawing itself
     def changeValue(self, value):
         self.value = value
         if self.onchange:
             self.onchange(self.value)
         self.update()
-        return 0 # avoid redrawing itself
 
 
 class TextArea(TagBulma):    # not HTAG OPTIMIZED
@@ -55,12 +55,12 @@ class TextArea(TagBulma):    # not HTAG OPTIMIZED
         self["disabled"]=self.disabled
         self<=self.value
 
+    @Tag.NoRender # avoid redrawing itself
     def changeValue(self, value):
         self.value = value
         if self.onchange:
             self.onchange(self.value)
         self.update()
-        return 0 # avoid redrawing itself
 
 class Checkbox(TagBulma):
     tag="div"
@@ -91,12 +91,12 @@ class Checkbox(TagBulma):
             )
         )
 
+    @Tag.NoRender # avoid redrawing itself
     def switch(self):
         self.value = not self.value
         if self.onchange:
             self.onchange(self.value)
         self.update()
-        return 0 # avoid redrawing itself
 
 
 
@@ -115,15 +115,18 @@ class Slider(TagBulma):
         self["oninput"] = self.bind.changeValue(b"this.value")
         self.onchange = onchange
 
+    @Tag.NoRender # avoid redrawing itself
     def changeValue(self,v):
         self["value"] = v
         if self.onchange:
             self.onchange(v)
-        return 0 # avoid redrawing itself
 
 if __name__=="__main__":
+
+    import logging
+    logging.basicConfig(format='[%(levelname)-5s] %(name)s: %(message)s',level=logging.DEBUG)
+
     obj=Tag.div( )
-    obj <= Input()
     obj <= InputText("hello")
     obj <= TextArea("hello")
     obj <= Checkbox(True,"Yolo")

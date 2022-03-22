@@ -18,11 +18,10 @@ class Form(Tag):
         self["onsubmit"]="%s;event.preventDefault();" % self.bind._onsubmit(b"JSON.stringify(Object.fromEntries(new FormData(this)))")
         self.onsubmit = onsubmit
 
+    @Tag.NoRender # avoid redrawing itself
     def _onsubmit(self,f):
         if self.onsubmit:
             self.onsubmit(json.loads(f))
-
-        return 0 # avoid redrawing itself
 
 
 if __name__=="__main__":
