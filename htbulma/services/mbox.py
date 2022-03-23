@@ -20,29 +20,29 @@ class MBox(TagBulma):
 
     def show(self, content, canClose=True):
         self.clear()
-        o = Tag.div(_class = "modal is-active")
+        o = Tag.H.div(_class = "modal is-active")
 
         jsclose= self.bind.close()
 
         if canClose:
-            o <= Tag.div(_class="modal-background", _onclick=jsclose)
-            o <= Tag.div(
+            o <= Tag.H.div(_class="modal-background", _onclick=jsclose)
+            o <= Tag.H.div(
                     _class="modal-close is-large",
                     _aria_label="close",
                     _onclick=jsclose,
                 )
         else:
-            o <= Tag.div(_class="modal-background")
+            o <= Tag.H.div(_class="modal-background")
 
-        o <= Tag.div( Box(content), _class="modal-content")
+        o <= Tag.H.div( Box(content), _class="modal-content")
         self.add( o )
 
     def confirm(self, content, ok, ko=None,txtok="OK",txtko="Cancel"):
         self.ok = ok
         self.ko = ko
-        main = Tag.div( content )
+        main = Tag.H.div( content )
         main <= HBox(
-            Tag.button(txtko, _class="button is-light", _onclick=self.bind._confirm(0)),
+            Tag.H.button(txtko, _class="button is-light", _onclick=self.bind._confirm(0)),
             Button(txtok, _onclick=self.bind._confirm(1)),
             _style="text-align:right"
         )

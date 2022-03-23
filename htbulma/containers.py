@@ -17,11 +17,10 @@ from htag import Tag
 from . import TagBulma
 
 class VBox(TagBulma):
-    tag="div"
-    statics = Tag.style("""
+    statics = [Tag.H.style("""
 .vbox {display: flex;flex-flow: column nowrap;}
 .vbox > * {flex: 1 1 auto;margin:1px !important;}
-""")
+""")]
 
     def __init__(self,*objs,**a):
         super().__init__(**a)
@@ -30,11 +29,10 @@ class VBox(TagBulma):
 
 
 class HBox(TagBulma):
-    tag="div"
-    statics = Tag.style("""
+    statics = [Tag.H.style("""
 .hbox {display: flex;flex-flow: row nowrap;align-items:center}
 .hbox > * {flex: 1 1 auto;margin:1px !important;}
-""")
+""")]
 
     def __init__(self,*objs,**a):
         super().__init__(**a)
@@ -42,15 +40,13 @@ class HBox(TagBulma):
         self <= objs
 
 class Box(TagBulma):
-    tag="div"
     def __init__(self,*objs,**a):
         super().__init__(**a)
         self.classEnsure("box")
         self <= objs
 
 
-class Section(TagBulma):
-    tag="section"
+class Section(TagBulma,Tag.section):
     def __init__(self,*objs,**a):
         super().__init__(**a)
         self.classEnsure("section")

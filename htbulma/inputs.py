@@ -76,9 +76,9 @@ class Checkbox(TagBulma):
     def update(self):
         self.clear()
         self.add(
-            Tag.label(
+            Tag.H.label(
                 [
-                    Tag.input(
+                    Tag.H.input(
                         _checked=self.value,
                         _type="checkbox",
                         _class="checkbox",

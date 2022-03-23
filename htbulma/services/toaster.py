@@ -25,8 +25,8 @@ class Toaster(TagBulma):
 
         jsclose= self.bind.close()
 
-        o = Tag.div( _class="notification has-text-light has-background-grey",_style = "position:fixed;left:0px;right:0px;bottom:0px;z-index:1000")
-        o.add( Tag.button(_class="delete", _onclick=jsclose) )
+        o = Tag.H.div( _class="notification has-text-light has-background-grey",_style = "position:fixed;left:0px;right:0px;bottom:0px;z-index:1000")
+        o.add( Tag.H.button(_class="delete", _onclick=jsclose) )
         o.add( content )
 
         self("""setTimeout(function() {%s;},%s);""" % (jsclose,delay))

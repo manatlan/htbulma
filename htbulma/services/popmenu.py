@@ -30,22 +30,22 @@ class PopMenu(TagBulma):
     def __str__(self):
         self.clear()
         if self._menu and self._menu.get("entries"):
-            entries=Tag.ul(_class="menu-list")
+            entries=Tag.H.ul(_class="menu-list")
             for name,callback in self._menu["entries"].items():
-                entries<= Tag.li( Tag.a(name,_onclick=self.bind.close(name)) )
+                entries<= Tag.H.li( Tag.H.a(name,_onclick=self.bind.close(name)) )
 
             if "pos" in self._menu:
                 fix="left:%spx;top:%spx" % (self._menu["pos"]["x"],self._menu["pos"]["y"])
             else:
                 fix=""
 
-            self <= Tag.div(
+            self <= Tag.H.div(
                 _class="modal-background",
                 _onclick=self.bind.close(),
                 _style="background-color:inherit"
             )
-            self <= Tag.div(
-                Tag.aside( entries,_class="menu"),
+            self <= Tag.H.div(
+                Tag.H.aside( entries,_class="menu"),
                 _class="card",
                 _style="position:fixed;z-index:10000;padding:2px;"+fix,
             )

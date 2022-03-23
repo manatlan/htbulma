@@ -33,10 +33,10 @@ class TabsHeader(_Selector):  # TODO: implement disabled
         self.clear()
         self.classEnsure("tabs is-centered")
 
-        u = Tag.ul()
+        u = Tag.H.ul()
         for idx, i in enumerate(self.choices):
             isActive = "is-active" if self.value == i else None
-            u <= Tag.li(A(i, _onclick=self.bind._selectVal(idx)), _class=isActive)
+            u <= Tag.H.li(A(i, _onclick=self.bind._selectVal(idx)), _class=isActive)
         self <= u
 
 
@@ -49,9 +49,9 @@ class RadioButtons(_Selector):
         self.classEnsure("control")
 
         for idx, i in enumerate(self.choices):
-            self <= Tag.label(
+            self <= Tag.H.label(
                         [
-                            Tag.input(
+                            Tag.H.input(
                                 _type="radio",
                                 _class="radio",  # override
                                 _name="r%s" % id(self),
@@ -70,10 +70,10 @@ class SelectButtons(_Selector):  # TODO: add disabled ?
     def update(self):
         self.clear()
         self.classEnsure("tabs is-toggle")
-        u = Tag.ul()
+        u = Tag.H.ul()
         for idx, i in enumerate(self.choices):
             isActive = "is-active" if self.value == i else None
-            u<=Tag.li(A(i, _onclick=self.bind._selectVal(idx)), _class=isActive)
+            u<=Tag.H.li(A(i, _onclick=self.bind._selectVal(idx)), _class=isActive)
         self <= u
 
 
@@ -89,7 +89,7 @@ class Select(_Selector):
             _disabled=bool(self.disabled),
         )
         for idx, i in enumerate(self.choices):
-            s <= Tag.option(i, _value=idx, _selected=(self.value == i))
+            s <= Tag.H.option(i, _value=idx, _selected=(self.value == i))
 
         self <= s
 

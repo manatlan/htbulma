@@ -30,7 +30,7 @@ class Tags(TagBulma):
             if self.editable:
                 klass = "tag is-success" if i in self.tags else "tag"
                 self.add(
-                    Tag.span(
+                    Tag.H.span(
                         i,
                         _class=klass,
                         _onclick=self.bind.switch(i),
@@ -39,7 +39,7 @@ class Tags(TagBulma):
                 )
             else:
                 if i in self.tags:
-                    self.add(Tag.span(i, _class="tag is-success"))
+                    self.add(Tag.H.span(i, _class="tag is-success"))
             self.add(" ")
 
     def switch(self, t):

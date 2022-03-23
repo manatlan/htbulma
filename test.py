@@ -2,6 +2,7 @@ from htag import Tag
 import htbulma as b
 
 
+
 if __name__=="__main__":
 
     ALLTAGS = ["banana", "apple", "pear", "peach", "melon", "cherry", "plum"]
@@ -51,10 +52,14 @@ if __name__=="__main__":
             table = b.Table(self.ll, cols=list("abcde"), pageSize=10, pageIndex=0)
             split=b.HSplit( group2, table , sizes=[30,70])
 
+            def showFile(n):
+                self.toast.show( n, 1000 )
+
             tab = b.Tabs()
             tab.addTab("Tab1", group1)
             tab.addTab("Tab2", split)
             tab.addTab("Tab3", table)
+            tab.addTab("Tab4", b.FileSelect(".", showFile))
             tab.selected = "Tab2"
 
             nav= b.Nav("HTag Demo")

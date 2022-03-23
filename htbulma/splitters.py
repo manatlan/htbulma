@@ -10,11 +10,10 @@
 from htag import Tag
 import json
 
-class TagWcSplyt(Tag):
-    tag="wc-splyt"
+class TagWcSplyt(Tag.wc_splyt):
 
-    # statics = Tag.script(_src="https://my.netlib.re/wyc/gen/splyt.py")  # WYC "web component" in python ;-)
-    statics = Tag.script(r"""var $jscomp=$jscomp||{};$jscomp.scope={};$jscomp.createTemplateTagFirstArg=function(c){return c.raw=c};$jscomp.createTemplateTagFirstArgWithRaw=function(c,p){c.raw=p;return c};
+    # statics = Tag.H.script(_src="https://my.netlib.re/wyc/gen/splyt.py")  # WYC "web component" in python ;-)
+    statics = [Tag.H.script(r"""var $jscomp=$jscomp||{};$jscomp.scope={};$jscomp.createTemplateTagFirstArg=function(c){return c.raw=c};$jscomp.createTemplateTagFirstArgWithRaw=function(c,p){c.raw=p;return c};
 !function(c,p){"object"==typeof exports&&"undefined"!=typeof module?module.exports=p():"function"==typeof define&&define.amd?define(p):(c=c||self).Split=p()}(this,function(){var c="undefined"!=typeof window?window:null,p=null===c,x=p?void 0:c.document,r=function(){return!1},Y=p?"calc":["","-webkit-","-moz-","-o-"].filter(function(g){var e=x.createElement("div");return e.style.cssText="width:"+g+"calc(9px)",!!e.style.length}).shift()+"calc",O=function(g){if("string"==typeof g||g instanceof String){var e=
 x.querySelector(g);if(!e)throw Error("Selector "+g+" did not match a DOM element");return e}return g},q=function(g,e,m){g=g[e];return void 0!==g?g:m},E=function(g,e,m,t){if(e){if("end"===t)return 0;if("center"===t)return g/2}else if(m){if("start"===t)return 0;if("center"===t)return g/2}return g},Z=function(g,e){var m=x.createElement("div");return m.className="gutter gutter-"+e,m},aa=function(g,e,m){var t={};return"string"==typeof e||e instanceof String?t[g]=e:t[g]=Y+"("+e+"% - "+m+"px)",t},ba=function(g,
 e){var m;return(m={})[g]=e+"px",m};return function(g,e){function m(d,a,b,f){var l=P(y,a,b,f);Object.keys(l).forEach(function(h){d.style[h]=l[h]})}function t(){return n.map(function(d){return d.size})}function Q(d){var a=n[this.a],b=n[this.b],f=a.size+b.size;a.size=d/this.size*f;b.size=f-d/this.size*f;m(a.element,a.size,this._b,a.i);m(b.element,b.size,this._c,b.i)}function ca(d){var a,b=n[this.a],f=n[this.b];this.dragging&&(a=("touches"in d?d.touches[0][A]:d[A])-this.start+(this._b-this.dragOffset),
@@ -32,7 +31,7 @@ WcSplyt=function(){var c=Reflect.construct(HTMLElement,[],WcSplyt);if(c._templat
 WcSplyt.prototype.modeChanged=function(){this.connectedCallback();this.dispatchEvent(new window.Event("change"));return null};WcSplyt.prototype.sizesChanged=function(){var c=this.getAttribute("sizes");_pyfunc_truthy(this._s)&&_pyfunc_truthy(c)&&(this._s.setSizes(JSON.parse(c)),this.dispatchEvent(new window.Event("change")));return null};
 WcSplyt.prototype.connectedCallback=function(){var c=_pyfunc_truthy(this.getAttribute("mode"))||"horizontal";var p=JSON.parse(_pyfunc_truthy(this.getAttribute("sizes"))||"[50, 50]");this.root.className=c;_pyfunc_truthy(this._s)&&this._s.destroy();this._s=new Split(this.shadowRoot.querySelectorAll("slot"),{direction:c,sizes:p,minSize:[0,0],onDragEnd:function(x){return this.changeSize(x)}.bind(this)});return null};
 WcSplyt.prototype.changeSize=function(c){this.setAttribute("sizes",JSON.stringify(c));this.dispatchEvent(new window.Event("change"));return null};Object.defineProperty(WcSplyt,"observedAttributes",{get:function(){return["mode","sizes"]}});WcSplyt.prototype._template='\n<style>\nslot {display:block}\n\n#split {\n    width:100%;\n    height:100%;\n}\n#split.horizontal {\n    display: flex;\n}\n#split.vertical {\n}\n\n.gutter {\n    background-color: #eee;\n    background-repeat: no-repeat;\n    background-position: 50%;\n}\n\n.gutter.gutter-horizontal {\n    background-image: url(\'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==\');\n    cursor: col-resize;\n}\n\n.gutter.gutter-vertical {\n    background-image: url(\'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=\');\n    cursor: row-resize;\n}\n\n</style>\n<div id="split">\n    <slot name="a"></slot>\n    <slot name="b"></slot>\n</div>\n\n    ';
-WcSplyt.prototype._reacts={mode:["modeChanged"],sizes:["sizesChanged"]};WcSplyt.prototype.attributeChangedCallback=function(c,p,x){if(this._reacts[c])for(var r in this._reacts[c])this[this._reacts[c][r]]()};customElements.define("wc-splyt",WcSplyt);""")  # WYC "web component" in python ;-)
+WcSplyt.prototype._reacts={mode:["modeChanged"],sizes:["sizesChanged"]};WcSplyt.prototype.attributeChangedCallback=function(c,p,x){if(this._reacts[c])for(var r in this._reacts[c])this[this._reacts[c][r]]()};customElements.define("wc-splyt",WcSplyt);""")]  # WYC "web component" in python ;-)
 
 
     def changeSize(self,v):
@@ -46,8 +45,8 @@ class HSplit(TagWcSplyt):
         self["mode"] = "horizontal"
         # when sizes change, ensure to inform the py component
         self["onchange"] = self.bind.changeSize( b"this.getAttribute('sizes')")
-        self <= Tag.div(left,_slot="a",_style="height:100%")
-        self <= Tag.div(right,_slot="b",_style="height:100%")
+        self <= Tag.H.div(left,_slot="a",_style="height:100%")
+        self <= Tag.H.div(right,_slot="b",_style="height:100%")
 
 class VSplit(TagWcSplyt):
     def __init__(self,up,down, sizes=[50,50],**a):
@@ -55,8 +54,8 @@ class VSplit(TagWcSplyt):
         self["sizes"] = sizes
         self["mode"] = "vertical"
         self["onchange"] = self.bind.changeSize( b"this.getAttribute('sizes')")
-        self <= Tag.div(up,_slot="a",_style="height:100%")
-        self <= Tag.div(down,_slot="b",_style="height:100%")
+        self <= Tag.H.div(up,_slot="a",_style="height:100%")
+        self <= Tag.H.div(down,_slot="b",_style="height:100%")
 
 
 if __name__=="__main__":

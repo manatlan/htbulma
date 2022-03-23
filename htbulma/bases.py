@@ -9,15 +9,13 @@
 from htag import Tag
 from . import TagBulma
 
-class Progress(TagBulma):
-    tag="progress"
+class Progress(TagBulma,Tag.progress):
 
     def __init__(self,**a):
         super().__init__(**a)
         self.classEnsure("progress is-dark")
 
-class Content(TagBulma):
-    tag="div"
+class Content(TagBulma,Tag.div):
 
     def __init__(self,txt=None,**a):
         super().__init__(**a)
@@ -25,8 +23,7 @@ class Content(TagBulma):
         self <= txt
 
 
-class Button(TagBulma):
-    tag="button"
+class Button(TagBulma,Tag.button):
 
     def __init__(self,txt=None,**a):
         super().__init__(**a)
@@ -34,8 +31,7 @@ class Button(TagBulma):
         self <= txt
 
 
-class A(TagBulma):
-    tag="a"
+class A(TagBulma,Tag.a):
 
     def __init__(self,txt,**a):
         super().__init__(**a)

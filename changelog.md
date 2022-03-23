@@ -1,3 +1,9 @@
+### 0.1.0 "use the new" 2022/03/23
+
+ * for htag >= 0.1.0
+ * add FileSelect( path, cb(fullpath) ) (need to add sercurity blocker!)
+ * add FileUpload( cb(name,content) )
+
 ### 0.0.8 "add form" 2022/03/22
 
  * use "Tag.NoRender" from htag>=0.0.16 (in place of return 0)

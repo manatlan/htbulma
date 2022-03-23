@@ -34,7 +34,7 @@ if __name__=="__main__":
         def __init__(self):
             super().__init__()
             self.cc = Clipboard(self)
-            self<= Tag.button( "Copy", _onclick=self.bind.copy())
+            self<= Tag.H.button( "Copy", _onclick=self.bind.copy())
 
         def copy(self):
             self.cc.copy("backend text to copy in clipboard")

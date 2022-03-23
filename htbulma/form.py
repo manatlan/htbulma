@@ -11,8 +11,7 @@ from . import TagBulma,Slider,InputText
 from htag import Tag
 import json
 
-class Form(Tag):
-    tag="form"
+class Form(Tag.form):
     def __init__(self,onsubmit=None,**a):
         Tag.__init__(self,**a)
         self["onsubmit"]="%s;event.preventDefault();" % self.bind._onsubmit(b"JSON.stringify(Object.fromEntries(new FormData(this)))")
@@ -30,9 +29,9 @@ if __name__=="__main__":
 
     obj=Form(onsubmit=onsubmit)
     obj<=InputText("",_name="txt")
-    obj<=Tag.input(_name="txt2",_value="", _class="input")
+    obj<=Tag.H.input(_name="txt2",_value="", _class="input")
     obj<=Slider(1,1,100,_name="sel")
-    obj<=Tag.input(_type="submit",_value="ok", _class="button")
+    obj<=Tag.H.input(_type="submit",_value="ok", _class="button")
 
     from . import _test
     _test( obj )
