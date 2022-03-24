@@ -1,3 +1,7 @@
+### 0.1.2  2022/03/24
+
+* FileUpload transfer as base64 and decode to bytes now
+
 ### 0.1.1  2022/03/24
 
 * FileUpload transfer binary string now (if text, you will need to decode))
