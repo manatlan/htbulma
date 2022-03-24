@@ -10,16 +10,16 @@
 from htag import Tag
 import os
 
-#TODO: permit binary files too !
+# TODO: doesn't work well with browserhttp runner ;-(
 
 class FileUpload(Tag.input):
-    """ only text file """
-    statics=[Tag.H.script("""
+    """ TRANSFERT as BINARY STRING """
+    statics=[Tag.H.script(r"""
 function fileupload( self, cbInteract ) {
     let file = self.files[0];
     var reader = new FileReader();
     reader.onload =  e => { cbInteract(file.name, e.target.result) };
-    reader.readAsText(file);     //reader.readAsBinaryString(file);
+    reader.readAsBinaryString(file); //reader.readAsText(file);
 }""")]
 
     def __init__(self,onchange,**a):
@@ -38,4 +38,4 @@ if __name__=="__main__":
     obj=FileUpload( showFile )
 
     from . import _test
-    _test( "only txt file",obj )
+    _test( "TRANSFERT AS BINARY STRING",obj )

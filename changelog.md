@@ -1,7 +1,13 @@
+### 0.1.1  2022/03/24
+
+* FileUpload transfer binary string now (if text, you will need to decode))
+* FileSelect is now limited to the path (no way to browse/select elsewhere), security !!!
+* signature change: FileSelect( path, cb(fullpath), pattern="*" )
+
 ### 0.1.0 "use the new" 2022/03/23
 
  * for htag >= 0.1.0
- * add FileSelect( path, cb(fullpath) ) (need to add sercurity blocker!)
+ * add FileSelect( path, cb(fullpath) ) (need to add security blocker!)
  * add FileUpload( cb(name,content) )
 
 ### 0.0.8 "add form" 2022/03/22

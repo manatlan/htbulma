@@ -59,7 +59,7 @@ if __name__=="__main__":
             tab.addTab("Tab1", group1)
             tab.addTab("Tab2", split)
             tab.addTab("Tab3", table)
-            tab.addTab("Tab4", b.FileSelect(".", showFile))
+            tab.addTab("Tab4", b.FileSelect(".", showFile,"*.py"))
             tab.selected = "Tab2"
 
             nav= b.Nav("HTag Demo")
