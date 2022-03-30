@@ -14,13 +14,16 @@ import json
 class Form(Tag.form):
     def __init__(self,onsubmit=None,**a):
         Tag.__init__(self,**a)
-        self["onsubmit"]="%s;event.preventDefault();" % self.bind._onsubmit(b"JSON.stringify(Object.fromEntries(new FormData(this)))")
-        self.onsubmit = onsubmit
+        # rewrite the form.submit() (bicoz this method doesn't call the onsubmit ;-( )
+        self.js = """tag.submit=function() {%s}""" % self.bind._onsubmit(b"JSON.stringify(Object.fromEntries(new FormData(this)))")
+
+        self["onsubmit"]="event.preventDefault();this.submit()"
+        self._callback = onsubmit
 
     @Tag.NoRender # avoid redrawing itself
-    def _onsubmit(self,f):
-        if self.onsubmit:
-            self.onsubmit(json.loads(f))
+    def _onsubmit(self,f:dict):
+        if self._callback:
+            self._callback(json.loads(f))
 
 
 if __name__=="__main__":

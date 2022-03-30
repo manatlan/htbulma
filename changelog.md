@@ -1,3 +1,10 @@
+### 0.2.0 "Inputs breainkg changes" 2022/03/30
+
+* Form implement its own submit method
+* Fields, simple object to build a "form" template (can't be simpler)
+* new widgets !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
 ### 0.1.2  2022/03/24
 
 * FileUpload transfer as base64 and decode to bytes now
