@@ -8,7 +8,7 @@
 # #############################################################################
 from . import TagBulma,TabsHeader,Content
 
-class Tabs(TagBulma): # New version (htag optimized, but can bo better with built lately)
+class Tabs(TagBulma): # New version (NOT htag optimized ;-()
 
     def __init__(self,**a):
         super().__init__(**a)
@@ -30,7 +30,7 @@ class Tabs(TagBulma): # New version (htag optimized, but can bo better with buil
 
         if self.__selected:
             if len(ll)>0:
-                self <= TabsHeader(self.__selected, ll, onchange=self._setselected )
+                self <= TabsHeader(self.__selected, ll).onchange(self._setselected )
                 self <= self.__tabs[ self.__selected ]
 
     @property
@@ -39,11 +39,11 @@ class Tabs(TagBulma): # New version (htag optimized, but can bo better with buil
 
     @selected.setter
     def selected(self, v):
-        self._setselected(v)
+        self.__selected =v
+        self._render()
 
-    def _setselected(self,v):
-        assert v in self.__tabs.keys()
-        self.__selected = v
+    def _setselected(self,obj):
+        self.__selected = obj.value
         self._render()
 
 if __name__=="__main__":

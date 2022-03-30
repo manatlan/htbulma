@@ -29,23 +29,23 @@ if __name__=="__main__":
             group1<=b.HBox( b.Button("hello"), b.Button("hello", _class="is-success") )
             group1<=b.HBox( b.Button("hello"), b.Button("hello", _class="is-small") )
             group1<=b.Tags( ["pear","plum"], ALLTAGS)
-            group1<=b.Checkbox( False, "Just do it")
+            group1<=b.Checkbox( False, "Just do it").onchange(self.onchange)
             group1<=b.Button("aff modal",_onclick=self.bind.affmodal())
             group1<=b.Button("aff toast",_onclick=self.bind.afftoast())
-            group1<=b.InputText("input text", onchange = self.onchange)
-            group1<=b.InputText("input passwd", type="password", onchange = self.onchange)
-            group1<=b.TextArea("text area", onchange = self.onchange)
-            group1<=b.Slider(42,0,100, onchange = self.onchange)
+            group1<=b.Input("input text").onchange(self.onchange)
+            group1<=b.Input("input passwd", type="password").onchange(self.onchange)
+            group1<=b.Textarea("text area").onchange(self.onchange)
+            group1<=b.Range(42,_min=0,_max=100).onchange(self.onchange)
             group1<=b.Content( "<h1>Hello</h1>" )
             group1<=b.Progress()
 
 
             group2=Tag.div()
             # #=============== selectors
-            group2<=b.TabsHeader(self.select, [1, 2, 3], self.disabled )
-            group2<=b.RadioButtons(self.select, [1, 2, 3], self.disabled)
-            group2<=b.SelectButtons(self.select, [1, 2, 3], self.disabled)
-            group2<=b.Select(self.select, [1, 2, 3], self.disabled)
+            group2<=b.TabsHeader(self.select, [1, 2, 3])
+            group2<=b.Radio(self.select, [1, 2, 3])
+            group2<=b.SelectButtons(self.select, [1, 2, 3])
+            group2<=b.Select(self.select, [1, 2, 3])
             # # # #===============
 
 
@@ -55,11 +55,22 @@ if __name__=="__main__":
             def showFile(n):
                 self.toast.show( n, 1000 )
 
+            commons={}
+            f=b.Fields()
+            f.addField("Name", b.Input("mamamam",**commons))
+            f.addField("Surname", b.Input("kookokko",**commons), "not mine!")
+            f.addField("Sex", b.Radio(1,[1,2,3],**commons))
+            f.addField("Other", [b.Select(1,[1,2,3],**commons), b.Select(None,[None,1,2,3],**commons) ])
+            f.addField("Address", b.Textarea("",_rows="2",**commons))
+            f.addField("Size", b.Range(10,_min=0, _max=100, **commons))
+            f.addField("Ok with that", b.Checkbox(False,"Sure?", **commons))
+
             tab = b.Tabs()
             tab.addTab("Tab1", group1)
             tab.addTab("Tab2", split)
             tab.addTab("Tab3", table)
             tab.addTab("Tab4", b.FileSelect(".", showFile,"*.py"))
+            tab.addTab("A form", f)
             tab.selected = "Tab2"
 
             nav= b.Nav("HTag Demo")
@@ -75,9 +86,9 @@ if __name__=="__main__":
         def afftoast(self):
             self.toast.show( "Hello World", 1000 )
 
-        def onchange(self,v):
-            print("++++++++++++++++++++++",v)
-            self.toast.show( v, 1000 )
+        def onchange(self,obj):
+            print("++++++++++++++++++++++",obj)
+            self.toast.show( obj.value, 1000 )
 
 
 
