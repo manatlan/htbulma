@@ -1,11 +1,12 @@
-### 0.2.0 "Inputs breainkg changes" 2022/03/30
+### 0.2.0 "Inputs breaking changes" 2022/03/30
 
-* Form implement its own submit method
+* Form implements its own submit() method
 * Fields, simple object to build a "form" template (can't be simpler)
-* new widgets !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 * bye bye : InputText,TextArea,Checkbox,Slider,RadioButtons,SelectButtons,Select
 * welcome : Input,Range,Checkbox,Radio,SelectButtons,TabsHeader,Select,Textarea
-* theses new ones are better, in all way ...
+* theses new ones are better, in all way (they.work in same way, with .onchange(), name=xxx, and attrs _readonly, _required, _disabled, ...)
+* Input can handle a datalist (dict or list) (like a combobox)
+* others can handle a dict or list too (radio, select, ...)
 
 ### 0.1.2  2022/03/24
 
