@@ -7,7 +7,7 @@
 # https://github.com/manatlan/htbulma
 # #############################################################################
 
-from . import TagBulma,Slider,InputText
+from . import TagBulma
 from htag import Tag
 import json
 
@@ -31,9 +31,9 @@ if __name__=="__main__":
         print(form)
 
     obj=Form(onsubmit=onsubmit)
-    obj<=InputText("",_name="txt")
-    obj<=Tag.H.input(_name="txt2",_value="", _class="input")
-    obj<=Slider(1,1,100,_name="sel")
+    obj<=Tag.H.input(_name="txt1",_value="1", _class="input")
+    obj<=Tag.H.input(_name="txt2",_value="2", _class="input")
+    obj<=Tag.H.input(_name="txt3",_value="3", _class="input")
     obj<=Tag.H.input(_type="submit",_value="ok", _class="button")
 
     from . import _test

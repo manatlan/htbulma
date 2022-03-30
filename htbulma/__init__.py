@@ -44,19 +44,17 @@ def _test(*o):
 ########################################
 from .bases import Content, Button, A, Progress
 from .containers import Box,VBox,HBox, Section
+from .fields import Fields
+from .form import Form
+from .inputs import Input,Range,Checkbox,Radio,SelectButtons,TabsHeader,Select,Textarea
 from .splitters import HSplit,VSplit
-from .inputs import InputText,TextArea,Checkbox,Slider
-from .selectors import TabsHeader,RadioButtons,SelectButtons,Select
 from .services import MBox,Toaster,PopMenu,Clipboard
 from .nav import Nav
 from .table import Table
 from .tabs import Tabs
 from .tags import Tags
-from .form import Form
 from .fileselect import FileSelect
 from .fileupload import FileUpload
-from .fields import Fields
-from .NEW import Input,Range,Checkbox,Radio,SelectButtons,TabsHeader,Select,Textarea
 ########################################
 
 
