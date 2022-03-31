@@ -1,3 +1,7 @@
+### 0.2.1 2022/03/31
+
+* select(@name) was bugued ;-(
+
 ### 0.2.0 "Inputs breaking changes" 2022/03/30
 
 * Form implements its own submit() method

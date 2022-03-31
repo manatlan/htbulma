@@ -247,6 +247,7 @@ class Select(Tag.div, SelfProperties, TagBulma):
 
         self.value = value
         self._options = options
+        if name: self["name"]=name
 
         if "_class" in a: del a["_class"]
         if "_style" in a: del a["_style"]
@@ -256,14 +257,14 @@ class Select(Tag.div, SelfProperties, TagBulma):
         else:
             a["_style"]="width:100%;"
 
-        self.input = Tag.H.select(**a)
+        self.input = Tag.H.select(_name=name,**a)
 
         if isinstance(options,list):
             for j in options:
-                self.input <= Tag.H.option( j,_name=name, _selected = (value == j) )
+                self.input <= Tag.H.option( j, _selected = (value == j) )
         elif isinstance(options,dict):
             for k,v in options.items():
-                self.input <= Tag.H.option( v,_name=name, _value=k, _selected = (value == k) )
+                self.input <= Tag.H.option( v, _value=k, _selected = (value == k) )
 
         self <= self.input
 
