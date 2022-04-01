@@ -16,11 +16,11 @@ class Fields(Tag.fieldset,TagBulma):
         super().__init__(**a)
 
     def addField(self, label, obj,info=None):
-        left = Tag.H.div( Tag.H.div(label,_class="label"), _class="field-label is-normal")
-        contents=[Tag.H.div(obj,_class="control")]
-        if info: contents.append( Tag.H.p(info,_class="help") )
-        right = Tag.H.div( Tag.H.div( contents,_class="field"), _class="field-body")
-        self <= Tag.H.div( [left,right], _class="field is-horizontal")
+        left = Tag.div( Tag.div(label,_class="label"), _class="field-label is-normal")
+        contents=[Tag.div(obj,_class="control")]
+        if info: contents.append( Tag.p(info,_class="help") )
+        right = Tag.div( Tag.div( contents,_class="field"), _class="field-body")
+        self <= Tag.div( [left,right], _class="field is-horizontal")
 
 if __name__=="__main__":
 

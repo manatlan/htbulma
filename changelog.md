@@ -1,3 +1,7 @@
+### 0.2.2 2022/04/01
+
+* FIX : Fields produced a full static form fields ;-(
+
 ### 0.2.1 2022/03/31
 
 * select(@name) was bugued ;-(
