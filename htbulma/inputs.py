@@ -10,6 +10,18 @@ from . import TagBulma, Box, Fields, HBox, Form, Content
 from htag import Tag
 import json,html
 
+"""
+IMPORTANT TODO :
+IMPORTANT TODO :
+IMPORTANT TODO :
+
+    all the "onchange" can't contain a real callback ...
+    (all understand only a function (not async / not generator) wich take one param self)
+
+    IT SHOULD CHANGE !!!!!
+
+"""
+
 class SelfProperties:
     _callback=None
 
