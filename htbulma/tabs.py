@@ -30,7 +30,7 @@ class Tabs(TagBulma): # New version (NOT htag optimized ;-()
 
         if self.__selected:
             if len(ll)>0:
-                self <= TabsHeader(self.__selected, ll).onchange(self._setselected )
+                self <= TabsHeader(self.__selected, ll, onchange= self._setselected )
                 self <= self.__tabs[ self.__selected ]
 
     @property

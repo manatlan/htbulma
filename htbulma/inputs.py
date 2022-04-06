@@ -10,31 +10,21 @@ from . import TagBulma, Box, Fields, HBox, Form, Content
 from htag import Tag
 import json,html
 
-"""
-IMPORTANT TODO :
-IMPORTANT TODO :
-IMPORTANT TODO :
-
-    all the "onchange" can't contain a real callback ...
-    (all understand only a function (not async / not generator) wich take one param self)
-
-    IT SHOULD CHANGE !!!!!
-
-"""
 
 class SelfProperties:
-    _callback=None
+    # _callback=None
 
     def onchange(self,callback):
-        self["onchange"] = self.bind.setValue(b"this.value")
-        self._callback = callback
+        self["onchange"] = self.bind( self.setValue, b"this.value" ).bind( callback )
+        # self._callback = callback
         return self
 
     @Tag.NoRender
     def setValue(self,value):
         self["value"] = value
         self.value = value
-        if self._callback: self._callback( self )
+        # if self._callback: self._callback( self )
+
 
 
     def _fixValue(self,value): #TODO: dont work for float,bool,.. (only int/str) ;-(
@@ -76,13 +66,11 @@ class Input(Tag.input, SelfProperties, TagBulma):
 
         self["value"] = value
         self.value = value
-        if self._callback: self._callback( self )
 
 
 class Range(Tag.div):
     def __init__(self, value, name=None,onchange=None,**a):
         super().__init__(**a)
-        self._callback=None
         self["class"]="control"
         self["value"] = value
         self.value = value
@@ -107,14 +95,12 @@ class Range(Tag.div):
 
     #|||||||||||||||||||||||||||||||||
     def onchange(self,callback):
-        self.input["onchange"] = self.bind.setValue(b"this.value")
-        self._callback = callback
+        self.input["onchange"] = self.bind( self.setValue, b"this.value" ).bind( callback )
         return self
 
     @Tag.NoRender
     def setValue(self,value):
         self.value = int(value)
-        if self._callback: self._callback( self )
     #|||||||||||||||||||||||||||||||||
 
 class Checkbox(Tag.label, TagBulma):
@@ -144,14 +130,12 @@ class Checkbox(Tag.label, TagBulma):
 
     #|||||||||||||||||||||||||||||||||
     def onchange(self,callback):
-        self.input["onchange"] = self.bind.setValue(b"this.checked")
-        self._callback = callback
+        self.input["onchange"] = self.bind( self.setValue, b"this.checked").bind( callback )
         return self
 
     @Tag.NoRender
     def setValue(self,value):
         self.value = value
-        if self._callback: self._callback( self )
     #|||||||||||||||||||||||||||||||||
 
 
@@ -162,7 +146,6 @@ class Radio(Tag.div, SelfProperties, TagBulma):
         self.value=value
         self.classEnsure("control")
         default_name = name or ("r%s" % id(self))
-        self._callback=None
         self._options=options
         self._childs=[]
 
@@ -191,8 +174,7 @@ class Radio(Tag.div, SelfProperties, TagBulma):
     #|||||||||||||||||||||||||||||||||
     def onchange(self,callback): # override
         for i in self._childs:
-            i["onchange"] = self.bind.setValue(b"this.value")
-        self._callback = callback
+            i["onchange"] = self.bind( self.setValue, b"this.value" ).bind( callback )
         return self
 
     @Tag.NoRender
@@ -201,7 +183,6 @@ class Radio(Tag.div, SelfProperties, TagBulma):
         value = self._fixValue(value) #(only reason to use SelfProperties)
 
         self.value = value
-        if self._callback: self._callback( self )
     #|||||||||||||||||||||||||||||||||
 
 
@@ -211,7 +192,6 @@ class SelectButtons(Tag.div, TagBulma):
     def __init__(self, value, options:list, name=None,onchange=None,**a):
         super().__init__(**a)
         self.value=value
-        self._callback=None
         self._options=options
         self._childs=[]
 
@@ -223,10 +203,8 @@ class SelectButtons(Tag.div, TagBulma):
         self<= self.input
         self<= self.u
 
+        self._onchange = onchange
         self._render()
-
-        if onchange:
-            self.onchange( onchange )
 
 
     def _render(self):
@@ -240,27 +218,25 @@ class SelectButtons(Tag.div, TagBulma):
                 if self["disabled"]:
                     self.u<=Tag.H.li(Tag.H.a(j,_disabled=True), _class=isActive, _disabled=True)
                 else:
-                    self.u<=Tag.H.li(Tag.H.a(j, _onclick=self.bind.setValue(j) ), _class=isActive)
+                    self.u<=Tag.H.li(Tag.a(j, _onclick=self.bind( self.setValue, j).bind( self._onchange) ), _class=isActive)
         elif isinstance(self._options,dict):
             for k,v in self._options.items():
                 isActive = "is-active" if self.value == k else ""
                 if self["disabled"]:
                     self.u<=Tag.H.li(Tag.H.a(v,_disabled=True), _class=isActive, _disabled=True)
                 else:
-                    self.u<=Tag.H.li(Tag.H.a(v, _onclick=self.bind.setValue(k) ), _class=isActive)
+                    self.u<=Tag.H.li(Tag.a(v, _onclick=self.bind( self.setValue, k).bind( self._onchange) ), _class=isActive)
 
 
 
     #|||||||||||||||||||||||||||||||||
     def onchange(self,callback):
-        self._callback = callback
-        return self
+        raise Exception("Don't use it, use the onchange attr at constructor !")
 
     def setValue(self,value):   # force re-render
         self.value = value
         self.input["value"] = value
         self._render()
-        if self._callback: self._callback( self )
     #|||||||||||||||||||||||||||||||||
 
 class TabsHeader(SelectButtons):
@@ -284,7 +260,7 @@ class Select(Tag.div, SelfProperties, TagBulma):
         else:
             a["_style"]="width:100%;"
 
-        self.input = Tag.H.select(_name=name,**a)
+        self.input = Tag.select(_name=name,**a)
 
         if isinstance(options,list):
             for j in options:
@@ -301,15 +277,13 @@ class Select(Tag.div, SelfProperties, TagBulma):
 
     #|||||||||||||||||||||||||||||||||
     def onchange(self,callback):
-        self.input["onchange"] = self.bind.setValue(b"this.value")
-        self._callback = callback
+        self.input["onchange"] = self.bind( self.setValue,b"this.value").bind( callback )
         return self
 
     @Tag.NoRender
     def setValue(self,value):
         value = self._fixValue(value)
         self.value = value
-        if self._callback: self._callback( self )
     #|||||||||||||||||||||||||||||||||
 
 
@@ -328,7 +302,6 @@ class Textarea(Tag.Textarea, SelfProperties, TagBulma):
     def setValue(self,value):   #OVERRIDE
         self.value = value
         self.set(value)
-        if self._callback: self._callback( self )
 
 
 
@@ -346,9 +319,9 @@ if __name__=="__main__":
         def __init__(self):
             super().__init__()
 
-            self.modders = obj = SelectButtons(0,{0:"normal",4:"all required",5:"all readonly", 1:"all disabled",2:"style",3:"class"}).onchange( self.redraw )
+            self.modders = SelectButtons(0,{0:"normal",4:"all required",5:"all readonly", 1:"all disabled",2:"style",3:"class"}, onchange= self.redraw )
 
-            self.tab = TabsHeader(0,{0:"Via Form",1:"Reactive",2:"Inside Fields"}).onchange( self.redraw )
+            self.tab = TabsHeader(0,{0:"Via Form",1:"Reactive",2:"Inside Fields"}, onchange= self.redraw )
             self.visu = Tag.div()
             self.pre = Tag.pre()
 
@@ -450,8 +423,8 @@ if __name__=="__main__":
                 )
 
                 f<= HBox(
-                    SelectButtons(2,LIST,**commons).onchange( self.react ),
-                    SelectButtons("B",DICT,**commons).onchange( self.react ),
+                    SelectButtons(2,LIST, onchange = self.react,**commons),
+                    SelectButtons("B",DICT, onchange = self.react,**commons),
                 )
 
                 f<= HBox(

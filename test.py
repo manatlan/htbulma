@@ -44,7 +44,7 @@ if __name__=="__main__":
             # #=============== selectors
             group2<=b.TabsHeader(self.select, [1, 2, 3])
             group2<=b.Radio(self.select, [1, 2, 3])
-            group2<=b.SelectButtons(self.select, [1, 2, 3])
+            group2<=b.SelectButtons(self.select, [1, 2, 3], onchange=self.doit )
             group2<=b.Select(self.select, [1, 2, 3])
             # # # #===============
 
@@ -90,13 +90,18 @@ if __name__=="__main__":
             print("++++++++++++++++++++++",obj)
             self.toast.show( obj.value, 1000 )
 
+        def doit(self,obj):
+            # yield "a"
+            # yield "b"
+            print("=====+=========ù*******",obj)
+
 
 
 
     import logging
     logging.basicConfig(format='[%(levelname)-5s] %(name)s: %(message)s',level=logging.DEBUG)
     # logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',level=logging.DEBUG)
-
+    logging.getLogger("htag.tag").setLevel( logging.INFO )
 
     app=Page()
 
