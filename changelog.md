@@ -1,3 +1,8 @@
+### 0.2.3 2022/04/06
+
+* inputs : onchange is now in the signature of constructor of all inputs (prefer this) (like in the past)
+* nav : don't show the burger if no entries
+
 ### 0.2.2 2022/04/01
 
 * FIX : Fields produced a full static form fields ;-(

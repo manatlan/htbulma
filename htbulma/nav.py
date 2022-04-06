@@ -34,18 +34,19 @@ class Nav(TagBulma):
         self.clear()
         divBrand = Tag.H.div(_class="navbar-brand")
         divBrand <= Tag.H.b(self.title,  _class="navbar-item")
-        divBrand <= A(
-            [Tag.H.span(_aria_hidden=True),
-             Tag.H.span(_aria_hidden=True),
-             Tag.H.span(_aria_hidden=True),
-            ],
-            _role="button",
-            _class="navbar-burger burger",
-            _aria_label="menu",
-            _aria_expanded="false",
-            _data_target="navbarBasicExample",
-            _onclick="this.classList.toggle('is-active');document.querySelector('.navbar-menu').classList.toggle('is-active')",
-        )
+        if self._entries_first or self._entries_end:
+            divBrand <= A(
+                [Tag.H.span(_aria_hidden=True),
+                Tag.H.span(_aria_hidden=True),
+                Tag.H.span(_aria_hidden=True),
+                ],
+                _role="button",
+                _class="navbar-burger burger",
+                _aria_label="menu",
+                _aria_expanded="false",
+                _data_target="navbarBasicExample",
+                _onclick="this.classList.toggle('is-active');document.querySelector('.navbar-menu').classList.toggle('is-active')",
+            )
 
         menu = Tag.H.div(_class="navbar-start")
         for k, v in self._entries_first.items():
@@ -79,8 +80,8 @@ if __name__=="__main__":
         nav.addEntry( "added page%s" %len(nav._entries_first), nothing )
 
     nav= Nav("Nav Demo")
-    nav.addEntry( "Add a Page ", add )
-    nav.addEntry( "exit", nothing, True )
+    # nav.addEntry( "Add a Page ", add )
+    # nav.addEntry( "exit", nothing, True )
 
 
     from . import _test

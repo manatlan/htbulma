@@ -35,7 +35,7 @@ class SelfProperties:
         return value
 
 class Input(Tag.input, SelfProperties, TagBulma):
-    def __init__(self, value, options:list=[], name=None,**a):
+    def __init__(self, value, options:list=[], name=None, onchange=None,**a):
         super().__init__(**a)
         self.classEnsure("input")
 
@@ -53,6 +53,9 @@ class Input(Tag.input, SelfProperties, TagBulma):
             self <= datalist
             self["list"] = id(datalist)
 
+        if onchange:
+            self.onchange( onchange )
+
 
     @Tag.NoRender
     def setValue(self,value): # override
@@ -65,7 +68,7 @@ class Input(Tag.input, SelfProperties, TagBulma):
 
 
 class Range(Tag.div):
-    def __init__(self, value, name=None,**a):
+    def __init__(self, value, name=None,onchange=None,**a):
         super().__init__(**a)
         self._callback=None
         self["class"]="control"
@@ -86,6 +89,9 @@ class Range(Tag.div):
         self <= Tag.H.output(str(value),_style="flex: 0 0 auto;padding:4px;")
         self <= self.input
 
+        if onchange:
+            self.onchange( onchange )
+
 
     #|||||||||||||||||||||||||||||||||
     def onchange(self,callback):
@@ -100,7 +106,7 @@ class Range(Tag.div):
     #|||||||||||||||||||||||||||||||||
 
 class Checkbox(Tag.label, TagBulma):
-    def __init__(self, value:bool, label:str, name=None,**a):
+    def __init__(self, value:bool, label:str, name=None,onchange=None,**a):
         super().__init__(**a)
         self.classEnsure("checkbox")
 
@@ -121,6 +127,8 @@ class Checkbox(Tag.label, TagBulma):
         self <= " "
         self <= label
 
+        if onchange:
+            self.onchange( onchange )
 
     #|||||||||||||||||||||||||||||||||
     def onchange(self,callback):
@@ -137,7 +145,7 @@ class Checkbox(Tag.label, TagBulma):
 
 
 class Radio(Tag.div, SelfProperties, TagBulma):
-    def __init__(self, value, options:list, name=None,**a):
+    def __init__(self, value, options:list, name=None,onchange=None,**a):
         super().__init__(**a)
         self.value=value
         self.classEnsure("control")
@@ -164,6 +172,9 @@ class Radio(Tag.div, SelfProperties, TagBulma):
                 self._childs.append(i)
                 self <= Tag.H.label( [i," ",v], _class="radio" )
 
+        if onchange:
+            self.onchange( onchange )
+
 
     #|||||||||||||||||||||||||||||||||
     def onchange(self,callback): # override
@@ -185,7 +196,7 @@ class Radio(Tag.div, SelfProperties, TagBulma):
 
 class SelectButtons(Tag.div, TagBulma):
     _bstyle_ = "is-toggle is-small"
-    def __init__(self, value, options:list, name=None,**a):
+    def __init__(self, value, options:list, name=None,onchange=None,**a):
         super().__init__(**a)
         self.value=value
         self._callback=None
@@ -201,6 +212,10 @@ class SelectButtons(Tag.div, TagBulma):
         self<= self.u
 
         self._render()
+
+        if onchange:
+            self.onchange( onchange )
+
 
     def _render(self):
         self.u.clear()
@@ -241,7 +256,7 @@ class TabsHeader(SelectButtons):
 
 
 class Select(Tag.div, SelfProperties, TagBulma):
-    def __init__(self, value, options:list,name=None,**a):
+    def __init__(self, value, options:list,name=None,onchange=None,**a):
         super().__init__(**a)
         self.classEnsure("select")
 
@@ -268,6 +283,9 @@ class Select(Tag.div, SelfProperties, TagBulma):
 
         self <= self.input
 
+        if onchange:
+            self.onchange( onchange )
+
 
     #|||||||||||||||||||||||||||||||||
     def onchange(self,callback):
@@ -284,11 +302,15 @@ class Select(Tag.div, SelfProperties, TagBulma):
 
 
 class Textarea(Tag.Textarea, SelfProperties, TagBulma):
-    def __init__(self, value:str, name=None,**a):
+    def __init__(self, value:str, name=None,onchange=None,**a):
         super().__init__(value,**a)
         if name: self["name"]=name
         self.classEnsure("textarea")
         self.value = value
+
+        if onchange:
+            self.onchange( onchange )
+
 
     @Tag.NoRender
     def setValue(self,value):   #OVERRIDE
@@ -401,7 +423,7 @@ if __name__=="__main__":
                 )
 
                 f<= HBox(
-                    Input("",_type="date",**commons).onchange( self.react ),
+                    Input("",_type="date",onchange= self.react, **commons),
                     Input("",_type="month",**commons).onchange( self.react ),
                     Input("",_type="time",**commons).onchange( self.react ),
                     Input("",_type="password",**commons).onchange( self.react ),
