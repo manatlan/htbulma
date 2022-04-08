@@ -8,6 +8,7 @@
 # #############################################################################
 from . import TagBulma, Box, Fields, HBox, Form, Content
 from htag import Tag
+from htag.tag import Caller
 import json,html
 
 
@@ -15,7 +16,11 @@ class SelfProperties:
     # _callback=None
 
     def onchange(self,callback):
-        self["onchange"] = self.bind( self.setValue, b"this.value" ).bind( callback )
+        if not isinstance( callback, Caller):
+            callback = self.bind( callback )
+        callback = callback.prior( self.setValue, b"this.value" )
+
+        self["onchange"] = callback
         # self._callback = callback
         return self
 
@@ -95,7 +100,12 @@ class Range(Tag.div):
 
     #|||||||||||||||||||||||||||||||||
     def onchange(self,callback):
-        self.input["onchange"] = self.bind( self.setValue, b"this.value" ).bind( callback )
+        if not isinstance( callback, Caller):
+            callback = self.bind( callback )
+        callback = callback.prior( self.setValue, b"this.value" )
+
+
+        self.input["onchange"] = callback
         return self
 
     @Tag.NoRender
@@ -130,7 +140,11 @@ class Checkbox(Tag.label, TagBulma):
 
     #|||||||||||||||||||||||||||||||||
     def onchange(self,callback):
-        self.input["onchange"] = self.bind( self.setValue, b"this.checked").bind( callback )
+        if not isinstance( callback, Caller):
+            callback = self.bind( callback )
+        callback = callback.prior( self.setValue, b"this.value" )
+
+        self.input["onchange"] = callback
         return self
 
     @Tag.NoRender
@@ -173,8 +187,13 @@ class Radio(Tag.div, SelfProperties, TagBulma):
 
     #|||||||||||||||||||||||||||||||||
     def onchange(self,callback): # override
+
+        if not isinstance( callback, Caller):
+            callback = self.bind( callback )
+        callback = callback.prior( self.setValue, b"this.value" )
+
         for i in self._childs:
-            i["onchange"] = self.bind( self.setValue, b"this.value" ).bind( callback )
+            i["onchange"] = callback
         return self
 
     @Tag.NoRender
@@ -203,7 +222,7 @@ class SelectButtons(Tag.div, TagBulma):
         self<= self.input
         self<= self.u
 
-        self._onchange = onchange
+        self._callback = onchange
         self._render()
 
 
@@ -213,19 +232,27 @@ class SelectButtons(Tag.div, TagBulma):
             self.u["style"]="pointer-events: none;"
 
         if isinstance(self._options,list):
-            for j in self._options:
-                isActive = "is-active" if self.value == j else ""
-                if self["disabled"]:
-                    self.u<=Tag.H.li(Tag.H.a(j,_disabled=True), _class=isActive, _disabled=True)
-                else:
-                    self.u<=Tag.H.li(Tag.a(j, _onclick=self.bind( self.setValue, j).bind( self._onchange) ), _class=isActive)
+            options=[ (j,j) for j in self._options]
         elif isinstance(self._options,dict):
-            for k,v in self._options.items():
-                isActive = "is-active" if self.value == k else ""
-                if self["disabled"]:
-                    self.u<=Tag.H.li(Tag.H.a(v,_disabled=True), _class=isActive, _disabled=True)
+            options=self._options.items()
+        else:
+            options=[]
+
+        for k,v in options:
+            isActive = "is-active" if self.value == k else ""
+            if self["disabled"]:
+                self.u<=Tag.H.li(Tag.H.a(v,_disabled=True), _class=isActive, _disabled=True)
+            else:
+                if self._callback:
+                    if not isinstance( self._callback, Caller):
+                        callback = self.bind( self._callback )
+                    else:
+                        callback = self._callback # !!!!?
+                    callback = callback.prior( self.setValue, k )
                 else:
-                    self.u<=Tag.H.li(Tag.a(v, _onclick=self.bind( self.setValue, k).bind( self._onchange) ), _class=isActive)
+                    callback = self.bind(  self.setValue, k )
+
+                self.u<=Tag.H.li(Tag.a(v, _onclick=callback), _class=isActive)
 
 
 
@@ -277,7 +304,11 @@ class Select(Tag.div, SelfProperties, TagBulma):
 
     #|||||||||||||||||||||||||||||||||
     def onchange(self,callback):
-        self.input["onchange"] = self.bind( self.setValue,b"this.value").bind( callback )
+        if not isinstance( callback, Caller):
+            callback = self.bind( callback )
+        callback = callback.prior( self.setValue, b"this.value" )
+
+        self.input["onchange"] = callback
         return self
 
     @Tag.NoRender
@@ -400,26 +431,26 @@ if __name__=="__main__":
                 #====================================================
                 f=Tag.div()
                 f<= Content("All inputs are reactive and sent itself to the react() method")
-                f<= Textarea("hello",**commons).onchange( self.react )
+                f<= Textarea("hello",onchange= self.react,**commons)
                 f<= HBox(
-                    Input(2,**commons).onchange( self.react ),
-                    Input(None,LIST,**commons).onchange( self.react ),
-                    Input(None,DICT,**commons).onchange( self.react ),
+                    Input(2,onchange= self.react,**commons),
+                    Input(None,LIST,onchange= self.react,**commons),
+                    Input(None,DICT,onchange= self.react,**commons),
                 )
 
                 f<= HBox(
                     Input("",_type="date",onchange= self.react, **commons),
-                    Input("",_type="month",**commons).onchange( self.react ),
-                    Input("",_type="time",**commons).onchange( self.react ),
-                    Input("",_type="password",**commons).onchange( self.react ),
-                    Input("",_type="color",**commons).onchange( self.react ),
-                    Input("",_type="file",**commons).onchange( self.react ),    # not a great sense, either !
+                    Input("",_type="month",onchange= self.react,**commons),
+                    Input("",_type="time",onchange= self.react,**commons),
+                    Input("",_type="password",onchange= self.react,**commons),
+                    Input("",_type="color",onchange= self.react,**commons),
+                    Input("",_type="file",onchange= self.react,**commons),    # not a great sense, either !
                 )
 
 
                 f<= HBox(
-                    Radio(2,LIST,**commons).onchange( self.react ),
-                    Radio("B",DICT,**commons).onchange( self.react ),
+                    Radio(2,LIST,onchange= self.react,**commons),
+                    Radio("B",DICT,onchange= self.react,**commons),
                 )
 
                 f<= HBox(
@@ -428,16 +459,16 @@ if __name__=="__main__":
                 )
 
                 f<= HBox(
-                    Select(2,LIST,**commons).onchange( self.react ),
-                    Select("B",DICT,**commons).onchange( self.react ),
+                    Select(2,LIST,onchange= self.react,**commons),
+                    Select("B",DICT,onchange= self.react,**commons),
                 )
 
                 f<= HBox(
-                    Checkbox(True,"homme",**commons).onchange( self.react ),
-                    Checkbox(False,"femme",**commons).onchange( self.react ),
+                    Checkbox(True,"homme",onchange= self.react,**commons),
+                    Checkbox(False,"femme",onchange= self.react,**commons),
                 )
 
-                f<= Range(12, _min=10, _max=78, _step=2,**commons).onchange( self.react )
+                f<= Range(12, _min=10, _max=78, _step=2,onchange= self.react,**commons)
 
                 self.pre.set( "Interact with an input ;-)" )
             else:

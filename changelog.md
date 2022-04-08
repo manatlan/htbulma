@@ -1,3 +1,8 @@
+### 0.2.5 2022/04/08
+
+ * all inputs keep the instance of the callback/caller given on 'onchange=...'
+   (use the Caller.prior from htag>=0.1.8 to do the trick)
+
 ### 0.2.4 2022/04/06
 
  * all inputs can now call a real htag callback (with async/generator etc ..)
