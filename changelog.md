@@ -1,3 +1,12 @@
+### 0.2.7 2022/04/21
+
+ * Use new mechanism "imports" from htag, to define dependancies
+ * add "ALL" to get a list(tuple) of all widgets declared in the lib
+
+### 0.2.6 2022/04/13
+
+ * FIX Checkbox issue, using reactive mode (was always true/on)
+
 ### 0.2.5 2022/04/08
 
  * all inputs keep the instance of the callback/caller given on 'onchange=...'

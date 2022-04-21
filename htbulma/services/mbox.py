@@ -6,11 +6,13 @@
 #
 # https://github.com/manatlan/htbulma
 # #############################################################################
-from .. import TagBulma,Button,Box,Content,HBox
+from .. import TagBulma,Button,Box,HBox
 from htag import Tag
 
 class MBox(TagBulma):
     tag="div"
+
+    imports = Button,Box,HBox
 
     def __init__(self, parent):
         """ auto attach on 'parent' """

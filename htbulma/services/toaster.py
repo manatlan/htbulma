@@ -6,7 +6,7 @@
 #
 # https://github.com/manatlan/htbulma
 # #############################################################################
-from .. import TagBulma,Button,Box
+from .. import TagBulma,Box
 from htag import Tag
 
 

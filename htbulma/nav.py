@@ -12,6 +12,8 @@ from htag import Tag
 class Nav(TagBulma):
     tag="nav"
 
+    imports = A
+
     def __init__(self, title):
         super().__init__()
         self["role"]="navigation"

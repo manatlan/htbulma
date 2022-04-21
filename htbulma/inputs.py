@@ -142,14 +142,14 @@ class Checkbox(Tag.label, TagBulma):
     def onchange(self,callback):
         if not isinstance( callback, Caller):
             callback = self.bind( callback )
-        callback = callback.prior( self.setValue, b"this.value" )
+        callback = callback.prior( self.setValue, b"this.checked" )
 
         self.input["onchange"] = callback
         return self
 
     @Tag.NoRender
     def setValue(self,value):
-        self.value = value
+        self.value = value in ["true","on","yes",True,1]
     #|||||||||||||||||||||||||||||||||
 
 

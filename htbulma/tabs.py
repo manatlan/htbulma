@@ -6,9 +6,11 @@
 #
 # https://github.com/manatlan/htbulma
 # #############################################################################
-from . import TagBulma,TabsHeader,Content
+from . import TagBulma,TabsHeader
 
 class Tabs(TagBulma): # New version (NOT htag optimized ;-()
+
+    imports = TabsHeader
 
     def __init__(self,**a):
         super().__init__(**a)
