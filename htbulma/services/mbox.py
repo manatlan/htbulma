@@ -6,7 +6,7 @@
 #
 # https://github.com/manatlan/htbulma
 # #############################################################################
-from .. import TagBulma,Button,Box,HBox
+from .. import TagBulma,Button,Box,HBox,Content
 from htag import Tag
 
 class MBox(TagBulma):
@@ -20,23 +20,23 @@ class MBox(TagBulma):
         self["info"]="mbox"
         parent.add( self )
 
-    def show(self, content, canClose=True):
+    def show(self, content, canClose=True, full=False):
         self.clear()
         o = Tag.H.div(_class = "modal is-active")
 
         jsclose= self.bind.close()
 
+        o <= Tag.H.div(_class="modal-background", _onclick=jsclose)
         if canClose:
-            o <= Tag.H.div(_class="modal-background", _onclick=jsclose)
             o <= Tag.H.div(
                     _class="modal-close is-large",
                     _aria_label="close",
                     _onclick=jsclose,
                 )
-        else:
-            o <= Tag.H.div(_class="modal-background")
 
-        o <= Tag.H.div( Box(content), _class="modal-content")
+        o <= Tag.H.div( Box( content , _style="height:100%;" if full else None) , _class="modal-content", _style = "width:90%;height:98%;" if full else None )
+
+
         self.add( o )
 
     def confirm(self, content, ok, ko=None,txtok="OK",txtko="Cancel"):
@@ -70,7 +70,8 @@ if __name__=="__main__":
         print("ko")
 
     obj=Tag( )
-    # MBox(obj).show( Content("YO") )
+    # MBox(obj).show( Content("YO"),  )
+    # MBox(obj).show( Content("YO"), full=True )
     MBox(obj).confirm("hello ? sure ?????", ok=majok, ko=majko)
 
     from .. import _test

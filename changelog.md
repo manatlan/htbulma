@@ -1,3 +1,7 @@
+### 0.2.8 2022/04/21
+
+ * new mbox.show(self, content, canClose=True, full=False) : can make a box in nearly fullscreen
+
 ### 0.2.7 2022/04/21
 
  * Use new mechanism "imports" from htag, to define dependancies
