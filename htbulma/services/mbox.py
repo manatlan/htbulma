@@ -12,7 +12,7 @@ from htag import Tag
 class MBox(TagBulma):
     tag="div"
 
-    imports = Button,Box,HBox
+    imports = Button,Box,HBox,Content
 
     def __init__(self, parent):
         """ auto attach on 'parent' """
@@ -34,28 +34,58 @@ class MBox(TagBulma):
                     _onclick=jsclose,
                 )
 
-        o <= Tag.H.div( Box( content , _style="height:100%;" if full else None) , _class="modal-content", _style = "width:90%;height:98%;" if full else None )
+        o <= Tag.H.div( Box( content , _style="height:100%;overflow-y:auto" if full else None) , _class="modal-content", _style = "width:90%;height:98%;" if full else None )
 
 
         self.add( o )
 
     def confirm(self, content, ok, ko=None,txtok="OK",txtko="Cancel"):
-        self.ok = ok
-        self.ko = ko
-        main = Tag.H.div( content )
+        self._cbok = ok
+        self._cbko = ko
+        js = """if (event.keyCode === 27) {event.preventDefault();%s;}""" % self.bind._confirm(0)
+
+        main = Content( content )
         main <= HBox(
-            Tag.H.button(txtko, _class="button is-light", _onclick=self.bind._confirm(0)),
-            Button(txtok, _onclick=self.bind._confirm(1)),
-            _style="text-align:right"
+            Tag.H.div(_style="flex: 1 0 25%;"),
+            Tag.H.div(_style="flex: 1 0 25%;"),
+            Button(txtko, _onclick=self.bind._confirm(0), _class="is-light",_style="flex: 1 0 25%;"),
+            Button(txtok, _onclick=self.bind._confirm(1), js="tag.focus()",_onkeyup = js , _style="flex: 1 0 25%;"),
         )
         self.show(main, canClose=True)
 
     def _confirm(self, ok):
         self.close()
-        if ok and self.ok:
-            self.ok()
-        elif self.ko:
-            self.ko()
+        if ok and self._cbok:
+            self._cbok()
+        elif self._cbko:
+            self._cbko()
+
+
+    def prompt(self, title, defaultValue, ok, ko=None,txtok="OK",txtko="Cancel"):
+        self._cbok = ok
+        self._cbko = ko
+
+        js =  """if (event.keyCode === 13) {event.preventDefault();%s;}""" % self.bind._prompt(b"this.value")
+        js += """if (event.keyCode === 27) {event.preventDefault();%s;}""" % self.bind._prompt()
+        input = Tag.input(_value=defaultValue, js="tag.focus();tag.setSelectionRange(0, tag.value.length)", _class="input", _onkeyup = js)
+
+        main = Content( Tag.h3(title) )
+        main <= input
+        main <= HBox(
+            Tag.H.div(_style="flex: 1 0 25%;"),
+            Tag.H.div(_style="flex: 1 0 25%;"),
+            Button(txtko, _onclick=self.bind._prompt(), _class="is-light",_style="flex: 1 0 25%;"),
+            Button(txtok, _onclick=self.bind._prompt( b"document.getElementById('%d').value" % id(input)) ,_style="flex: 1 0 25%;"),
+            _style="margin-top:10px"
+        )
+        self.show(main, canClose=True)
+
+    def _prompt(self, value=None):
+        self.close()
+        if (value is not None) and self._cbok:
+            self._cbok(value)
+        elif self._cbko:
+            self._cbko()
 
 
     def close(self):
@@ -64,15 +94,16 @@ class MBox(TagBulma):
 
 
 if __name__=="__main__":
-    def majok():
-        print("ok")
+    def majok(v=None):
+        print("ok",v)
     def majko():
         print("ko")
 
     obj=Tag( )
     # MBox(obj).show( Content("YO"),  )
     # MBox(obj).show( Content("YO"), full=True )
-    MBox(obj).confirm("hello ? sure ?????", ok=majok, ko=majko)
+    # MBox(obj).confirm("hello ? sure ?????", ok=majok, ko=majko)
+    MBox(obj).prompt("What's your name ?","john doe", ok=majok, ko=majko)
 
     from .. import _test
     _test( obj )

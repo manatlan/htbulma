@@ -1,3 +1,9 @@
+### 0.2.9 2022/04/22
+
+ * new mbox.prompt(title, defaultValue, ok, ko=None,txtok="OK",txtko="Cancel") ... ok = lambda value: pass
+ * mbox.confirm can be answered with keyboard (return/escape)
+ * better mbox.show(full)
+
 ### 0.2.8 2022/04/21
 
  * new mbox.show(self, content, canClose=True, full=False) : can make a box in nearly fullscreen
