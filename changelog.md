@@ -1,3 +1,7 @@
+### 0.2.12 2022/04/23
+
+ * Containers can handle list ;-)
+
 ### 0.2.11 2022/04/23
 
  * Some inputs objects was incompatible with htag 0.2.0 (the braces killer): now fixed !

@@ -8,7 +8,7 @@ if __name__=="__main__":
         def __init__(self):
             super().__init__()
 
-            i = b.SelectButtons(1, [1, 2, 3])
+            i = b.HBox( Tag.button(1)+Tag.button(2),Tag.button(3))
 
             self <= i
 
