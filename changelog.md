@@ -1,3 +1,7 @@
+### 0.2.11 2022/04/23
+
+ * Some inputs objects was incompatible with htag 0.2.0 (the braces killer): now fixed !
+
 ### 0.2.10 2022/04/23
 
  * just toml conf for dependencies

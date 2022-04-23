@@ -131,9 +131,7 @@ class Checkbox(Tag.label, TagBulma):
 
         self.input=Tag.input(_name=name,_type="checkbox", _checked = value, **a)
 
-        self <= self.input
-        self <= " "
-        self <= label
+        self <= self.input + " " + label
 
         if onchange:
             self.onchange( onchange )
@@ -161,7 +159,7 @@ class Radio(Tag.div, SelfProperties, TagBulma):
         self.classEnsure("control")
         default_name = name or ("r%s" % id(self))
         self._options=options
-        self._childs=[]
+        self._children=[]
 
         if "_class" in a: del a["_class"]
         if "_style" in a: del a["_style"]
@@ -173,12 +171,12 @@ class Radio(Tag.div, SelfProperties, TagBulma):
         if isinstance(options,list):
             for j in options:
                 i=Tag.input(_type="radio", _value=j, _checked = (value==j), _name = default_name, **a)
-                self._childs.append(i)
+                self._children.append(i)
                 self <= Tag.H.label( [i," ",j], _class="radio" )
         elif isinstance(options,dict):
             for k,v in options.items():
                 i=Tag.input(_type="radio", _value=k, _checked = (value==k), _name = default_name, **a)
-                self._childs.append(i)
+                self._children.append(i)
                 self <= Tag.H.label( [i," ",v], _class="radio" )
 
         if onchange:
@@ -192,7 +190,7 @@ class Radio(Tag.div, SelfProperties, TagBulma):
             callback = self.bind( callback )
         callback = callback.prior( self.setValue, b"this.value" )
 
-        for i in self._childs:
+        for i in self._children:
             i["onchange"] = callback
         return self
 
@@ -212,15 +210,14 @@ class SelectButtons(Tag.div, TagBulma):
         super().__init__(**a)
         self.value=value
         self._options=options
-        self._childs=[]
+        self._children=[]
 
         self.classEnsure("tabs "+self._bstyle_)
 
         self.input = Tag.input(_name=name,_type="hidden",_value=self.value, **a)
         self.u = Tag.H.ul()
 
-        self<= self.input
-        self<= self.u
+        self<= self.input + self.u
 
         self._callback = onchange
         self._render()
