@@ -1,3 +1,7 @@
+### 0.2.10 2022/04/23
+
+ * just toml conf for dependencies
+
 ### 0.2.9 2022/04/22
 
  * new mbox.prompt(title, defaultValue, ok, ko=None,txtok="OK",txtko="Cancel") ... ok = lambda value: pass
