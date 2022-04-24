@@ -24,7 +24,6 @@ class SelfProperties:
         # self._callback = callback
         return self
 
-    @Tag.NoRender
     def setValue(self,value):
         self["value"] = value
         self.value = value
@@ -64,7 +63,6 @@ class Input(Tag.input, SelfProperties, TagBulma):
             self.onchange( onchange )
 
 
-    @Tag.NoRender
     def setValue(self,value): # override
         # fix value type, using options
         value = self._fixValue(value)
@@ -108,7 +106,6 @@ class Range(Tag.div):
         self.input["onchange"] = callback
         return self
 
-    @Tag.NoRender
     def setValue(self,value):
         self.value = int(value)
     #|||||||||||||||||||||||||||||||||
@@ -145,7 +142,6 @@ class Checkbox(Tag.label, TagBulma):
         self.input["onchange"] = callback
         return self
 
-    @Tag.NoRender
     def setValue(self,value):
         self.value = value in ["true","on","yes",True,1]
     #|||||||||||||||||||||||||||||||||
@@ -194,7 +190,6 @@ class Radio(Tag.div, SelfProperties, TagBulma):
             i["onchange"] = callback
         return self
 
-    @Tag.NoRender
     def setValue(self,value):   # override
         # fix value type, using options
         value = self._fixValue(value) #(only reason to use SelfProperties)
@@ -308,7 +303,6 @@ class Select(Tag.div, SelfProperties, TagBulma):
         self.input["onchange"] = callback
         return self
 
-    @Tag.NoRender
     def setValue(self,value):
         value = self._fixValue(value)
         self.value = value
@@ -326,7 +320,6 @@ class Textarea(Tag.Textarea, SelfProperties, TagBulma):
             self.onchange( onchange )
 
 
-    @Tag.NoRender
     def setValue(self,value):   #OVERRIDE
         self.value = value
         self.set(value)

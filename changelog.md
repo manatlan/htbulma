@@ -1,3 +1,7 @@
+### 0.3.0 2022/04/24
+
+ * use htag 0.3.0 (norender is gone, but init+render are backs)
+
 ### 0.2.12 2022/04/23
 
  * Containers can handle list ;-)

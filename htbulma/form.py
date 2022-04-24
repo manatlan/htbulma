@@ -20,7 +20,6 @@ class Form(Tag.form):
         self["onsubmit"]="event.preventDefault();this.submit()"
         self._callback = onsubmit
 
-    @Tag.NoRender # avoid redrawing itself
     def _onsubmit(self,f:dict):
         if self._callback:
             self._callback(json.loads(f))
