@@ -1,3 +1,7 @@
+### 0.4.0 2022/05/03
+
+ * use htag >= 0.4.0
+
 ### 0.3.0 2022/04/24
 
  * use htag 0.3.0 (norender is gone, but init+render are backs)

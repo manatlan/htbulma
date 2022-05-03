@@ -9,14 +9,12 @@ if __name__=="__main__":
 
 
     class MyTabs(b.Tabs):  # inherit
-        def __init__(self,**a):
-            super().__init__(**a)
+        def init(self):
             self.addTab("P1", "I'm the page1")
             self.addTab("P2", "Currently, I am the page2 !")
 
     class Page(Tag):
-        def __init__(self):
-            super().__init__()
+        def init(self):
             self.select=2
             self.disabled=False
             self.ll = [(i + 1, i + 1, i + 1, i + 1, i + 1) for i in range(33)]
@@ -103,13 +101,12 @@ if __name__=="__main__":
     # logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',level=logging.DEBUG)
     logging.getLogger("htag.tag").setLevel( logging.INFO )
 
-    app=Page()
 
     from htag.runners import *
-    # r=GuyApp( app )
-    # r=PyWebWiew( app )
-    # r=BrowserStarletteHTTP( app )
-    # r=BrowserStarletteWS( app )
-    r=BrowserHTTP( app )
-    # r=WebHTTP( lambda: Page() )
+    # r=GuyApp( Page )
+    # r=PyWebWiew( Page )
+    # r=BrowserStarletteHTTP( Page )
+    # r=BrowserStarletteWS( Page )
+    r=BrowserHTTP( Page )
+    # r=WebHTTP( Page )
     r.run()

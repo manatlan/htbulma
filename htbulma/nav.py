@@ -82,8 +82,8 @@ if __name__=="__main__":
         nav.addEntry( "added page%s" %len(nav._entries_first), nothing )
 
     nav= Nav("Nav Demo")
-    # nav.addEntry( "Add a Page ", add )
-    # nav.addEntry( "exit", nothing, True )
+    nav.addEntry( "Add a Page ", add )
+    nav.addEntry( "exit", nothing, True )
 
 
     from . import _test
