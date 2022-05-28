@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "htbulma"
-version = "0.4.0"
+version = "0.5.0"
 description = "GUI toolkit for creating beautiful applications for mobile, web, and desktop from a single python3 codebase"
 authors = ["manatlan <manatlan@gmail.com>"]
 readme = 'README.md'
@@ -18,7 +18,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.7"
-htag = "^0.4"
+htag = "^0.5"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.0"
