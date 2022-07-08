@@ -1,3 +1,11 @@
+### 0.6.2 2022/07/08
+
+ * add Flex,HFlex, VFlex, to build flexbox better ;-)
+
+### 0.6.1 2022/07/05
+
+ * mbox.show(), canClose works as expected now !
+
 ### 0.6.0 2022/06/07
 
  * use htag >= 0.6.0

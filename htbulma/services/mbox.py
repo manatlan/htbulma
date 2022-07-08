@@ -26,8 +26,10 @@ class MBox(TagBulma):
 
         jsclose= self.bind.close()
 
-        o <= Tag.H.div(_class="modal-background", _onclick=jsclose)
+        bg=Tag.H.div(_class="modal-background")
+        o <= bg
         if canClose:
+            bg["onclick"]=jsclose
             o <= Tag.H.div(
                     _class="modal-close is-large",
                     _aria_label="close",
@@ -100,10 +102,10 @@ if __name__=="__main__":
         print("ko")
 
     obj=Tag( )
-    # MBox(obj).show( Content("YO"),  )
+    MBox(obj).show( Content("YO"), canClose=False )
     # MBox(obj).show( Content("YO"), full=True )
     # MBox(obj).confirm("hello ? sure ?????", ok=majok, ko=majko)
-    MBox(obj).prompt("What's your name ?","john doe", ok=majok, ko=majko)
+    # MBox(obj).prompt("What's your name ?","john doe", ok=majok, ko=majko)
 
     from .. import _test
     _test( obj )
