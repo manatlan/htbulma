@@ -13,13 +13,13 @@ class Progress(TagBulma,Tag.progress):
 
     def __init__(self,**a):
         super().__init__(**a)
-        self.classEnsure("progress is-dark")
+        self["class"].add("progress","is-dark")
 
 class Content(TagBulma,Tag.div):
 
     def __init__(self,txt=None,**a):
         super().__init__(**a)
-        self.classEnsure("content")
+        self["class"].add("content")
         self <= txt
 
 
@@ -27,7 +27,7 @@ class Button(TagBulma,Tag.button):
 
     def __init__(self,txt=None,**a):
         super().__init__(**a)
-        self.classEnsure("button is-link")
+        self["class"].add("button","is-link")
         self <= txt
 
 
@@ -35,7 +35,7 @@ class A(TagBulma,Tag.a):
 
     def __init__(self,txt,**a):
         super().__init__(**a)
-        self.classEnsure("a is-link")
+        self["class"].add("a","is-link")
         self <= txt
 
 

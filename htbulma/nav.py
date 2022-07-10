@@ -18,7 +18,7 @@ class Nav(TagBulma):
         super().__init__()
         self["role"]="navigation"
         self["aria-label"]="main navigation"
-        self.classEnsure("navbar is-fixed-top is-black")
+        self["class"].add("navbar","is-fixed-top","is-black")
         self.title = title
         self._entries_first = {}
         self._entries_end = {}

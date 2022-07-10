@@ -24,7 +24,7 @@ class VBox(TagBulma):
 
     def __init__(self,*objs,**a):
         super().__init__(**a)
-        self.classEnsure("vbox")
+        self["class"].add("vbox")
         for o in objs:
             self <= o
 
@@ -37,14 +37,14 @@ class HBox(TagBulma):
 
     def __init__(self,*objs,**a):
         super().__init__(**a)
-        self.classEnsure("hbox")
+        self["class"].add("hbox")
         for o in objs:
             self <= o
 
 class Box(TagBulma):
     def __init__(self,*objs,**a):
         super().__init__(**a)
-        self.classEnsure("box")
+        self["class"].add("box")
         for o in objs:
             self <= o
 
@@ -52,7 +52,7 @@ class Box(TagBulma):
 class Section(TagBulma,Tag.section):
     def __init__(self,*objs,**a):
         super().__init__(**a)
-        self.classEnsure("section")
+        self["class"].add("section")
         for o in objs:
             self <= o
 

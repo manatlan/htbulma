@@ -43,7 +43,7 @@ class SelfProperties:
 class Input(Tag.input, SelfProperties, TagBulma):
     def __init__(self, value, options:list=[], name=None, onchange=None,**a):
         super().__init__(**a)
-        self.classEnsure("input")
+        self["class"].add("input")
 
         if name: self["name"]=name
 
@@ -113,7 +113,7 @@ class Range(Tag.div):
 class Checkbox(Tag.label, TagBulma):
     def __init__(self, value:bool, label:str, name=None,onchange=None,**a):
         super().__init__(**a)
-        self.classEnsure("checkbox")
+        self["class"].add("checkbox")
 
         if self["readonly"]:
             if not self["style"]: self["style"]=""
@@ -152,7 +152,7 @@ class Radio(Tag.div, SelfProperties, TagBulma):
     def __init__(self, value, options:list, name=None,onchange=None,**a):
         super().__init__(**a)
         self.value=value
-        self.classEnsure("control")
+        self["class"].add("control")
         default_name = name or ("r%s" % id(self))
         self._options=options
         self._children=[]
@@ -207,7 +207,7 @@ class SelectButtons(Tag.div, TagBulma):
         self._options=options
         self._children=[]
 
-        self.classEnsure("tabs "+self._bstyle_)
+        self["class"].add("tabs",self._bstyle_)
 
         self.input = Tag.input(_name=name,_type="hidden",_value=self.value, **a)
         self.u = Tag.H.ul()
@@ -265,7 +265,7 @@ class TabsHeader(SelectButtons):
 class Select(Tag.div, SelfProperties, TagBulma):
     def __init__(self, value, options:list,name=None,onchange=None,**a):
         super().__init__(**a)
-        self.classEnsure("select")
+        self["class"].add("select")
 
         self.value = value
         self._options = options
@@ -313,7 +313,7 @@ class Textarea(Tag.Textarea, SelfProperties, TagBulma):
     def __init__(self, value:str, name=None,onchange=None,**a):
         super().__init__(value,**a)
         if name: self["name"]=name
-        self.classEnsure("textarea")
+        self["class"].add("textarea")
         self.value = value
 
         if onchange:
