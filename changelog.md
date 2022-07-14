@@ -1,4 +1,9 @@
-### 0.7.0 2022/08/10
+### 0.7.1 2022/07/14
+
+ * htbulma.ALL is now a list (not a tuple anymore) ;-)
+ * FIX: Splitters resizing doesn't create a hole on right ;-)
+
+### 0.7.0 2022/07/10
 
  * use htag 0.7 (no more classEnsure() ;-))
 

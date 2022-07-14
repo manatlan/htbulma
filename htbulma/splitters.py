@@ -36,7 +36,7 @@ WcSplyt.prototype._reacts={mode:["modeChanged"],sizes:["sizesChanged"]};WcSplyt.
 
     def changeSize(self,v):
         # save the rendering size (to redo the same sizes !)
-        self["sizes"] = [int(i) for i in json.loads(v)]
+        self["sizes"] = [float(i) for i in json.loads(v)]
 
 class HSplit(TagWcSplyt):
     def __init__(self,left,right, sizes=[50,50],**a):
