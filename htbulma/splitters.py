@@ -45,8 +45,8 @@ class HSplit(TagWcSplyt):
         self["mode"] = "horizontal"
         # when sizes change, ensure to inform the py component
         self["onchange"] = self.bind.changeSize( b"this.getAttribute('sizes')")
-        self <= Tag.H.div(left,_slot="a",_style="height:100%")
-        self <= Tag.H.div(right,_slot="b",_style="height:100%")
+        self <= Tag.div(left,_slot="a",_style="height:100%")
+        self <= Tag.div(right,_slot="b",_style="height:100%")
 
 class VSplit(TagWcSplyt):
     def __init__(self,up,down, sizes=[50,50],**a):
@@ -54,8 +54,8 @@ class VSplit(TagWcSplyt):
         self["sizes"] = sizes
         self["mode"] = "vertical"
         self["onchange"] = self.bind.changeSize( b"this.getAttribute('sizes')")
-        self <= Tag.H.div(up,_slot="a",_style="height:100%")
-        self <= Tag.H.div(down,_slot="b",_style="height:100%")
+        self <= Tag.div(up,_slot="a",_style="height:100%")
+        self <= Tag.div(down,_slot="b",_style="height:100%")
 
 
 if __name__=="__main__":

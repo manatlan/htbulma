@@ -1,3 +1,7 @@
+### 0.7.2 2022/07/15
+
+ * Splitters redraw correctly now !
+
 ### 0.7.1 2022/07/14
 
  * htbulma.ALL is now a list (not a tuple anymore) ;-)
