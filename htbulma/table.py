@@ -54,7 +54,7 @@ class Table(TagBulma):
 
         self <= t
 
-        if self.pageSize:
+        if self.pageSize and nbPage >1:
             nav = Tag.H.nav(
                 _class="pagination is-small", _role="navigation", _aria_label="pagination"
             )

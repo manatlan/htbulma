@@ -1,3 +1,7 @@
+### 0.7.3 2022/07/16
+
+ * Table doesn't show nav button if less than one page (hourra !)
+
 ### 0.7.2 2022/07/15
 
  * Splitters redraw correctly now !
