@@ -1,3 +1,7 @@
+### 0.7.4 2022/07/18
+
+ * FileSelect: multiple patterns, hightlight selected, better security, and back better
+
 ### 0.7.3 2022/07/16
 
  * Table doesn't show nav button if less than one page (hourra !)

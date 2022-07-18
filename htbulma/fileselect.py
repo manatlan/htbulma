@@ -11,23 +11,44 @@ from htag import Tag
 import os
 import fnmatch
 
+
 class FileSelect(Tag.div):
-    statics=[Tag.H.style("""
-.FileSelect div:hover {background: #eee;cursor:pointer;}
-""")]
-    def __init__(self,path,onselect,pattern="*",**a):
-        Tag.__init__(self,**a)
-        self["class"]="FileSelect"
+    statics="""
+.FileSelect {
+    white-space: nowrap;
+}
+.FileSelect div:hover {
+    background: #eee;cursor:pointer;
+}
+.FileSelect div.selected {
+    background:#DDD;
+}
+""",b"""
+
+function FileSelect_select(id) {
+    document.querySelectorAll('div.FileSelect div').forEach(div => {
+      div.classList.remove('selected');
+    });
+    document.getElementById(id).classList.add('selected');
+}
+
+"""
+    def init(self,path,onselect,pattern="*"):
+        self["class"].add("FileSelect")
         self.onselect=onselect
 
-        self._pattern = pattern
+        self._patterns = [pattern] if isinstance(pattern,str) else pattern
         self._root = os.path.realpath(path)
+        self._selected = None
         self._render(path)
+
+    def refresh(self):
+        self._render(self.path)
 
     def _render(self,path):
         self.clear()
         self.path = os.path.realpath(path)
-        assert self.path.startswith(self._root)
+        assert self.path.startswith(self._root) # security
         folders=[]
         files=[]
         for i in os.listdir(self.path):
@@ -37,18 +58,20 @@ class FileSelect(Tag.div):
                 files.append(i)
 
         if os.path.dirname(self.path).startswith(self._root):
-            self<= Tag.H.div( "📁 ..", _onclick=self.bind._selectFolder(".."))
+            self<= Tag.div( Tag.b( "&#11013; "+ path[len(self._root)+1:]),path=".." , _onclick=self._selectFolder)
         for i in sorted(folders):
-            self<= Tag.H.div( "📁 "+i, _onclick=self.bind._selectFolder(i))
+            self<= Tag.div( "📁 "+i, path=i, _onclick=self._selectFolder)
         for i in sorted(files):
-            if fnmatch.fnmatch(i, self._pattern):
-                self<= Tag.H.div(i, _onclick=self.bind._selectFile(i))
+            if any( [fnmatch.fnmatch(i, p) for p in self._patterns] ):
+                self<= Tag.div(i, path=i, _onclick=self._selectFile, _class="selected" if i==self._selected else "")
 
-    def _selectFolder(self,i):
-        self._render( os.path.join(self.path,i) )
-    def _selectFile(self,i):
-        path = os.path.join(self.path,i)
+    def _selectFolder(self,o):
+        self._render( os.path.realpath(os.path.join(self.path,o.path)) )
+    def _selectFile(self,o):
+        path = os.path.realpath(os.path.join(self.path,o.path))
         assert path.startswith(self._root)
+        self._selected = o.path
+        self(f"""FileSelect_select('{id(o)}')""")
         self.onselect(path)
 
 if __name__=="__main__":
