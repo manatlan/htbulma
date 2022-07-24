@@ -49,7 +49,8 @@ class Radio(inputs2.Radio,OldInputCompat):
     def __init__(self, value, options:inputs2.ListOrDict, name=None,onchange=None,**a):
         super().__init__(value,options,name=name, **a)
         OldInputCompat.__init__(self)
-        self.onchange(onchange)
+        if onchange:
+            self.onchange(onchange)
 
 
 class Select(inputs2.Select,OldInputCompat):
@@ -68,7 +69,8 @@ class SelectButtons(inputs2.SelectButtons,OldInputCompat):
     def __init__(self, value, options:inputs2.ListOrDict, name=None,onchange=None,**a):
         super().__init__(value,options,name=name, **a)
         OldInputCompat.__init__(self)
-        self.onchange(onchange)
+        if onchange:
+            self.onchange(onchange)
 
 
 class TabsHeader(SelectButtons):

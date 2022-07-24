@@ -1,4 +1,4 @@
-### WORK IN PROGRESS
+### 0.7.5 2022/07/24 "new inputs, compat ensured"
 
  * all inputs use new htag features, and are more consistent .... and compatible with previous ones ! ....
    (but DEPRECATED ... because in futures releases, it won't (remove .onchange() & .setValue() soon))

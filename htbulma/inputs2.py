@@ -12,22 +12,11 @@ import ast,json
 # import json,html
 from htbulma import TagBulma, Form
 
-from typing import Sequence,Union,Optional,Any,Callable,Type
+from typing import Union
 
 ListOrDict = Union[ list, dict]
 
 
-"""
-new inputs (**WORK IN PROGRESS**)
-
- - every widget make an interaction to set its ".value" after each change !
- - REAL "_onchange" : every widget can re-bind/chain the default onchange (with attrs or in init)
- - every widget doesn't redraw itself on change (except radio, selectbuttons & tabheaders; by nature)
- - clever (more self tag based !!!)
- - each widget got self.value dynamic ! (setting it, force redraw)
-
-AND HTAG.BIND.PRIOR will disappear !!!! (non sense, now)
-"""
 
 #########################################################################################################################
 ## Common helpers
@@ -65,6 +54,8 @@ class NewInput:
 
     def _redraw(self):
         pass
+
+    
 #########################################################################################################################
 ## Generics (not bulma related)
 #########################################################################################################################
@@ -73,7 +64,7 @@ class Input(Tag.input,Options,NewInput):
     statics= """.disabled {pointer-events:none;cursor: not-allowed;opacity:0.5}"""
 
     """
-    **a can be :
+    a.keys() can be :
         _type : date,email,color,file etc ...
         _required
         _readonly
@@ -81,6 +72,7 @@ class Input(Tag.input,Options,NewInput):
         _style
         _class
         _placeholder
+        ...
     """
 
     def __init__(self, value, options:ListOrDict=[], name=None, **a):
@@ -296,80 +288,3 @@ class SelectButtons(Tag.div,Options,NewInput):
 class TabsHeader(SelectButtons):
     _bstyle_="is-centered" # "is-boxed is-centered"
 
-##############################################################################
-##############################################################################
-##############################################################################
-
-from htag.runners import DevApp
-#TODO: remove that devapp !
-class Test(Tag.body):
-    def init(self):
-        self.cb_disabled= Checkbox(False,"disabled",_onchange = self._render)
-        self.cb_readonly= Checkbox(False,"readonly", _onchange = self._render)
-        self.cb_required= Checkbox(False,"required", _onchange = self._render)
-
-        self.main = Form(onsubmit=self.formSubmit)
-
-        # build layout
-        self <= self.cb_disabled + self.cb_readonly + self.cb_required
-        self <= Tag.button("Show current contents",_onclick=self.show)
-        self <= Tag.button("Set all to 1",_onclick=self.bind(self.setall,1))
-        self <= Tag.button("Set all to 0",_onclick=self.bind(self.setall,0))
-        self <= Tag.hr()
-        self <= self.main
-
-        self._render()
-
-    def _render(self,o=None):
-        commons={}
-        commons["_disabled"]=self.cb_disabled.value
-        commons["_readonly"]=self.cb_readonly.value
-        commons["_required"]=self.cb_required.value
-
-        self.main.clear()
-        LIST = [0,1,12,13,14]
-        DICT={0:"zero",1:"one","a":"aa","b":"bb"}
-        self.main <= Input(12,name="input_simple",**commons)
-        self.main <= Input(12,LIST,name="input_list",**commons)
-        self.main <= Input("a",DICT,name="input_dict",**commons)
-        self.main <= Checkbox(True,name="cb_simple",**commons)
-        self.main <= Checkbox(True,"Checked",name="cb_true",**commons)
-        self.main <= Checkbox(False,"Not-Checked",name="cb_false",**commons)
-        self.main <= Select(12,LIST,name="select_list",**commons)
-        self.main <= Select("a",DICT,name="select_dict",**commons)
-        self.main <= SelectButtons(12,LIST,name="selectb_list",**commons)
-        self.main <= SelectButtons("a",DICT,name="selectb_dict",**commons)
-        self.main <= TabsHeader(12,LIST,name="tabsheader_list",**commons)
-        self.main <= TabsHeader("a",DICT,name="tabsheader_dict",**commons)
-        self.main <= Textarea("hello",name="textarea",**commons)
-        self.main <= Radio(12,LIST,name="rb_list",**commons)
-        self.main <= Radio("a",DICT,name="rb_dict",**commons)
-        self.main <= Range(10,_min=0, _max=100, name="range",**commons)
-
-        self.main <= Tag.button("Test the form post way",_class="button")
-
-        for i in self.main.childs:
-            if issubclass(i.__class__,NewInput):
-                i["onchange"].bind( self.react ) # chain on the default event !
-
-    def setall(self, v):
-        print("Set all values to",v)
-        for obj in self.main.childs:
-            if issubclass(obj.__class__,NewInput):
-                obj.value=v
-
-    def show(self, o):
-        for obj in self.main.childs:
-            if issubclass(obj.__class__,NewInput):
-                self.react(obj)
-
-    def react(self, o ):
-        txt="- %s id=%s, value = %s (type:%s)" %( o.__class__.__name__, id(o), o.value, str(type(o.value)) )
-        print(txt)
-
-    def formSubmit(self, f:dict):
-        print( json.dumps(f,indent=4) )
-
-app=DevApp(Test)
-if __name__=="__main__":
-    app.run()
