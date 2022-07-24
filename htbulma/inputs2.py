@@ -31,7 +31,7 @@ AND HTAG.BIND.PRIOR will disappear !!!! (non sense, now)
 
 class Options:
 
-    def make_options(self,options):
+    def __init__(self,options):
         if isinstance(options,list):
             self._options = {i:i for i in options}
         elif isinstance(options,dict):
@@ -80,6 +80,7 @@ class Input(Tag.input,Options,NewInput):
     """
 
     def __init__(self, value, options:list=[], name=None, **a):
+        Options.__init__(self,options)
         super().__init__(**a)
         self.value=value  # store the real value in a property value
 
@@ -88,7 +89,6 @@ class Input(Tag.input,Options,NewInput):
 
         if name: self["name"]=name
 
-        self.make_options(options)
         if self._options:
             self["type"]="search"
             datalist = Tag.datalist( [Tag.H.option(v,_value=k) for k,v in self._options.items()] )
@@ -105,6 +105,7 @@ class Input(Tag.input,Options,NewInput):
 class Select(Tag.select,Options,NewInput):
 
     def __init__(self, value, options:list,name=None,**a):
+        Options.__init__(self,options)
         super().__init__(**a)
 
         self["class"].add("select")
@@ -115,7 +116,6 @@ class Select(Tag.select,Options,NewInput):
         if self["readonly"] or self["disabled"]:
             self["class"].add("disabled")
 
-        self.make_options(options)
         self.value = value  # redraw
 
     def _redraw(self):
@@ -222,24 +222,27 @@ class Textarea(Tag.textarea,NewInput):
 class Radio(Tag.span,Options,NewInput):
 
     def __init__(self, value, options:list, name=None,**a):
+        Options.__init__(self,options)
         super().__init__(**a)
 
         self["class"].add("control")
         self["onchange"] = self.bind( a.get("_onchange",lambda o:None) )   # TODO: evol htag ?! bcoz 2 interactions
 
         if self["readonly"] or self["disabled"]:
+            self._disabled=True
             self["class"].add("disabled")
+        else:
+            self._disabled=False
 
         self._default_name = name or ("r%s" % id(self))
 
-        self.make_options(options)
         self.value=value    # redraw
 
     def _redraw(self):
         self.clear()
         if self._options:
             for k,v in self._options.items():
-                i=Tag.input(_type="radio", _value=k, _checked = (self._value==k), _name = self._default_name )
+                i=Tag.input(_type="radio", _value=k, _checked = (self._value==k), _name = self._default_name,_disabled=self._disabled )
                 i["onchange"] = self.bind( self._set, b"this.value" )
                 self <= Tag.H.label( [i," ",v], _class="radio" )
 
@@ -255,15 +258,11 @@ class SelectButtons(Tag.div,Options,NewInput):
     _bstyle_ = "is-toggle is-small"
 
     def __init__(self, value, options:list, name=None,**a):
+        Options.__init__(self,options)
         super().__init__(**a)
-
-        self._options=options
-        self._children=[]
 
         self["class"].add("tabs",self._bstyle_)
         self["onchange"] = self.bind( a.get("_onchange",lambda o:None) )   # TODO: evol htag ?! bcoz 2 interactions
-
-        self.make_options(options)
 
         self.input = Tag.input(_name=name,_type="hidden",_value=self._value, **a)
         self.u = Tag.H.ul()
