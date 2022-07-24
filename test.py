@@ -9,7 +9,8 @@ if __name__=="__main__":
 
 
     class MyTabs(b.Tabs):  # inherit
-        def init(self):
+        def __init__(self,**a):
+            super().__init__(**a)
             self.addTab("P1", "I'm the page1")
             self.addTab("P2", "Currently, I am the page2 !")
 
@@ -27,13 +28,13 @@ if __name__=="__main__":
             group1<=b.HBox( b.Button("hello"), b.Button("hello", _class="is-success") )
             group1<=b.HBox( b.Button("hello"), b.Button("hello", _class="is-small") )
             group1<=b.Tags( ["pear","plum"], ALLTAGS)
-            group1<=b.Checkbox( False, "Just do it").onchange(self.onchange)
+            group1<=b.Checkbox( False, "Just do it",_onchange=self.onchange)
             group1<=b.Button("aff modal",_onclick=self.bind.affmodal())
             group1<=b.Button("aff toast",_onclick=self.bind.afftoast())
-            group1<=b.Input("input text").onchange(self.onchange)
-            group1<=b.Input("input passwd", type="password").onchange(self.onchange)
-            group1<=b.Textarea("text area").onchange(self.onchange)
-            group1<=b.Range(42,_min=0,_max=100).onchange(self.onchange)
+            group1<=b.Input("input text",_onchange=self.onchange)
+            group1<=b.Input("input passwd", type="password",_onchange=self.onchange)
+            group1<=b.Textarea("text area",_onchange=self.onchange)
+            group1<=b.Range(42,_min=0,_max=100,_onchange=self.onchange)
             group1<=b.Content( "<h1>Hello</h1>" )
             group1<=b.Progress()
 
@@ -42,7 +43,7 @@ if __name__=="__main__":
             # #=============== selectors
             group2<=b.TabsHeader(self.select, [1, 2, 3])
             group2<=b.Radio(self.select, [1, 2, 3])
-            group2<=b.SelectButtons(self.select, [1, 2, 3], onchange=self.doit )
+            group2<=b.SelectButtons(self.select, [1, 2, 3], _onchange=self.doit )
             group2<=b.Select(self.select, [1, 2, 3])
             # # # #===============
 
@@ -96,13 +97,13 @@ if __name__=="__main__":
 
 
 
-    import logging
-    logging.basicConfig(format='[%(levelname)-5s] %(name)s: %(message)s',level=logging.DEBUG)
+    # import logging
+    # logging.basicConfig(format='[%(levelname)-5s] %(name)s: %(message)s',level=logging.DEBUG)
     # logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',level=logging.DEBUG)
-    logging.getLogger("htag.tag").setLevel( logging.INFO )
+    # logging.getLogger("htag.tag").setLevel( logging.INFO )
 
 
-    from htag.runners import *
+    from htag.runners import BrowserHTTP
     # r=GuyApp( Page )
     # r=PyWebWiew( Page )
     # r=BrowserStarletteHTTP( Page )

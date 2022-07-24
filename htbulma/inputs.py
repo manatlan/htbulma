@@ -173,7 +173,7 @@ if __name__=="__main__":
                 f<= Content("All inputs are reactive and sent itself to the react() method")
                 f<= Textarea("hello",_onchange= self.react,**commons)
                 f<= HBox(
-                    Input(2,onchange= self.react,**commons),
+                    Input(2,_onchange= self.react,**commons),
                     Input(None,LIST,_onchange= self.react,**commons),
                     Input(None,DICT,_onchange= self.react,**commons),
                 )
