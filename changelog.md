@@ -1,3 +1,8 @@
+### WORK IN PROGRESS
+
+ * all inputs use new htag features, and are more consistent .... and compatible with previous ones ! ....
+   (but DEPRECATED ... because in next releases, it won't)
+
 ### 0.7.4 2022/07/18
 
  * FileSelect: multiple patterns, hightlight selected, better security, and back better

@@ -12,317 +12,68 @@ from htag.tag import Caller
 import json,html
 
 
-class SelfProperties:
-    # _callback=None
+def warn(o):
+    print("**WARNING** DEPRECATED use new form",o.__class__.__name__)
 
-    def onchange(self,callback):
-        if not isinstance( callback, Caller):
-            callback = self.bind( callback )
-        callback = callback.prior( self.setValue, b"this.value" )
+from . import inputs2
 
-        self["onchange"] = callback
-        # self._callback = callback
-        return self
-
+class OldInputCompat:
+    def __init__(self):
+        warn(self)
+    def onchange(self,cb):
+        warn(self)
+        self["onchange"].bind( cb )
     def setValue(self,value):
-        self["value"] = value
+        warn(self)
         self.value = value
-        # if self._callback: self._callback( self )
 
-
-
-    def _fixValue(self,value): #TODO: dont work for float,bool,.. (only int/str) ;-(
-        if isinstance(self._options,list):
-            if isinstance(value, str) and value.isnumeric() and int(value) in self._options:
-                return int(value)
-        elif isinstance(self._options,dict):
-            if isinstance(value, str) and value.isnumeric() and int(value) in self._options.keys():
-                return int(value)
-        return value
-
-class Input(Tag.input, SelfProperties, TagBulma):
+class Input(inputs2.Input,OldInputCompat):
     def __init__(self, value, options:list=[], name=None, onchange=None,**a):
-        super().__init__(**a)
-        self["class"].add("input")
-
-        if name: self["name"]=name
-
-        self["value"] = value
-        self.value = value
-        self._options = options
-        if isinstance(options,list) and options:
-            datalist = Tag.datalist( [Tag.H.option(_value=j) for j in options] )
-            self <= datalist
-            self["list"] = id(datalist)
-        elif isinstance(options,dict) and options:
-            datalist = Tag.datalist( [Tag.H.option(v,_value=k) for k,v in options.items()] )
-            self <= datalist
-            self["list"] = id(datalist)
-
-        if onchange:
-            self.onchange( onchange )
+        super().__init__(value,options,name=name,_onchange=onchange, **a)
+        OldInputCompat.__init__(self)
 
 
-    def setValue(self,value): # override
-        # fix value type, using options
-        value = self._fixValue(value)
-
-        self["value"] = value
-        self.value = value
-
-
-class Range(Tag.div):
+class Range(inputs2.Range,OldInputCompat):
     def __init__(self, value, name=None,onchange=None,**a):
-        super().__init__(**a)
-        self["class"]="control"
-        self["value"] = value
-        self.value = value
-
-        if "_class" in a: del a["_class"]
-        if "_style" in a: del a["_style"]
-
-        if self["readonly"]:
-            a["_style"]="flex: 1 0 auto;pointer-events: none;"
-        else:
-            a["_style"]="flex: 1 0 auto;"
-
-        self.input= Tag.input(_name=name,_type="range",_oninput="this.previousElementSibling.value = this.value", _value=value,**a)
-        if not self["style"]: self["style"]=""
-        self["style"]+=";display: flex; flex-flow: row nowrap;"
-        self <= Tag.H.output(str(value),_style="flex: 0 0 auto;padding:4px;")
-        self <= self.input
-
-        if onchange:
-            self.onchange( onchange )
+        super().__init__(value,name=name,_onchange=onchange, **a)
+        OldInputCompat.__init__(self)
 
 
-    #|||||||||||||||||||||||||||||||||
-    def onchange(self,callback):
-        if not isinstance( callback, Caller):
-            callback = self.bind( callback )
-        callback = callback.prior( self.setValue, b"this.value" )
-
-
-        self.input["onchange"] = callback
-        return self
-
-    def setValue(self,value):
-        self.value = int(value)
-    #|||||||||||||||||||||||||||||||||
-
-class Checkbox(Tag.label, TagBulma):
+class Checkbox(inputs2.Checkbox,OldInputCompat):
     def __init__(self, value:bool, label:str, name=None,onchange=None,**a):
-        super().__init__(**a)
-        self["class"].add("checkbox")
-
-        if self["readonly"]:
-            if not self["style"]: self["style"]=""
-            self["style"]+=";pointer-events: none;"
+        super().__init__(value,label=label,name=name,_onchange=onchange, **a)
+        OldInputCompat.__init__(self)
 
 
-        self.value = bool(value)
-        self._callback=None
-
-        if "_class" in a: del a["_class"]
-        if "_style" in a: del a["_style"]
-
-        self.input=Tag.input(_name=name,_type="checkbox", _checked = value, **a)
-
-        self <= self.input + " " + label
-
-        if onchange:
-            self.onchange( onchange )
-
-    #|||||||||||||||||||||||||||||||||
-    def onchange(self,callback):
-        if not isinstance( callback, Caller):
-            callback = self.bind( callback )
-        callback = callback.prior( self.setValue, b"this.checked" )
-
-        self.input["onchange"] = callback
-        return self
-
-    def setValue(self,value):
-        self.value = value in ["true","on","yes",True,1]
-    #|||||||||||||||||||||||||||||||||
-
-
-
-class Radio(Tag.div, SelfProperties, TagBulma):
+class Radio(inputs2.Radio,OldInputCompat):
     def __init__(self, value, options:list, name=None,onchange=None,**a):
-        super().__init__(**a)
-        self.value=value
-        self["class"].add("control")
-        default_name = name or ("r%s" % id(self))
-        self._options=options
-        self._children=[]
-
-        if "_class" in a: del a["_class"]
-        if "_style" in a: del a["_style"]
-
-        if self["readonly"]:
-            if not self["style"]: self["style"]=""
-            self["style"]+=";pointer-events: none;"
-
-        if isinstance(options,list):
-            for j in options:
-                i=Tag.input(_type="radio", _value=j, _checked = (value==j), _name = default_name, **a)
-                self._children.append(i)
-                self <= Tag.H.label( [i," ",j], _class="radio" )
-        elif isinstance(options,dict):
-            for k,v in options.items():
-                i=Tag.input(_type="radio", _value=k, _checked = (value==k), _name = default_name, **a)
-                self._children.append(i)
-                self <= Tag.H.label( [i," ",v], _class="radio" )
-
-        if onchange:
-            self.onchange( onchange )
+        super().__init__(value,options,name=name, **a)
+        OldInputCompat.__init__(self)
+        self.onchange(onchange)
 
 
-    #|||||||||||||||||||||||||||||||||
-    def onchange(self,callback): # override
-
-        if not isinstance( callback, Caller):
-            callback = self.bind( callback )
-        callback = callback.prior( self.setValue, b"this.value" )
-
-        for i in self._children:
-            i["onchange"] = callback
-        return self
-
-    def setValue(self,value):   # override
-        # fix value type, using options
-        value = self._fixValue(value) #(only reason to use SelfProperties)
-
-        self.value = value
-    #|||||||||||||||||||||||||||||||||
-
-
-
-class SelectButtons(Tag.div, TagBulma):
-    _bstyle_ = "is-toggle is-small"
+class Select(inputs2.Select,OldInputCompat):
     def __init__(self, value, options:list, name=None,onchange=None,**a):
-        super().__init__(**a)
-        self.value=value
-        self._options=options
-        self._children=[]
-
-        self["class"].add("tabs",self._bstyle_)
-
-        self.input = Tag.input(_name=name,_type="hidden",_value=self.value, **a)
-        self.u = Tag.H.ul()
-
-        self<= self.input + self.u
-
-        self._callback = onchange
-        self._render()
+        super().__init__(value,options,name=name,_onchange=onchange, **a)
+        OldInputCompat.__init__(self)
 
 
-    def _render(self):
-        self.u.clear()
-        if self["disabled"] or self["readonly"]:
-            self.u["style"]="pointer-events: none;"
-
-        if isinstance(self._options,list):
-            options=[ (j,j) for j in self._options]
-        elif isinstance(self._options,dict):
-            options=self._options.items()
-        else:
-            options=[]
-
-        for k,v in options:
-            isActive = "is-active" if self.value == k else ""
-            if self["disabled"]:
-                self.u<=Tag.H.li(Tag.H.a(v,_disabled=True), _class=isActive, _disabled=True)
-            else:
-                if self._callback:
-                    if not isinstance( self._callback, Caller):
-                        callback = self.bind( self._callback )
-                    else:
-                        callback = self._callback # !!!!?
-                    callback = callback.prior( self.setValue, k )
-                else:
-                    callback = self.bind(  self.setValue, k )
-
-                self.u<=Tag.H.li(Tag.a(v, _onclick=callback), _class=isActive)
+class Textarea(inputs2.Textarea,OldInputCompat):
+    def __init__(self, value:str, name=None,onchange=None,**a):
+        super().__init__(value,name=name,_onchange=onchange, **a)
+        OldInputCompat.__init__(self)
 
 
+class SelectButtons(inputs2.SelectButtons,OldInputCompat):
+    def __init__(self, value, options:list, name=None,onchange=None,**a):
+        super().__init__(value,options,name=name, **a)
+        OldInputCompat.__init__(self)
+        self.onchange(onchange)
 
-    #|||||||||||||||||||||||||||||||||
-    def onchange(self,callback):
-        raise Exception("Don't use it, use the onchange attr at constructor !")
-
-    def setValue(self,value):   # force re-render
-        self.value = value
-        self.input["value"] = value
-        self._render()
-    #|||||||||||||||||||||||||||||||||
 
 class TabsHeader(SelectButtons):
     _bstyle_="is-centered" # "is-boxed is-centered"
 
-
-class Select(Tag.div, SelfProperties, TagBulma):
-    def __init__(self, value, options:list,name=None,onchange=None,**a):
-        super().__init__(**a)
-        self["class"].add("select")
-
-        self.value = value
-        self._options = options
-        if name: self["name"]=name
-
-        if "_class" in a: del a["_class"]
-        if "_style" in a: del a["_style"]
-
-        if self["readonly"]:
-            a["_style"]="width:100%;pointer-events: none;"
-        else:
-            a["_style"]="width:100%;"
-
-        self.input = Tag.select(_name=name,**a)
-
-        if isinstance(options,list):
-            for j in options:
-                self.input <= Tag.H.option( j, _selected = (value == j) )
-        elif isinstance(options,dict):
-            for k,v in options.items():
-                self.input <= Tag.H.option( v, _value=k, _selected = (value == k) )
-
-        self <= self.input
-
-        if onchange:
-            self.onchange( onchange )
-
-
-    #|||||||||||||||||||||||||||||||||
-    def onchange(self,callback):
-        if not isinstance( callback, Caller):
-            callback = self.bind( callback )
-        callback = callback.prior( self.setValue, b"this.value" )
-
-        self.input["onchange"] = callback
-        return self
-
-    def setValue(self,value):
-        value = self._fixValue(value)
-        self.value = value
-    #|||||||||||||||||||||||||||||||||
-
-
-class Textarea(Tag.Textarea, SelfProperties, TagBulma):
-    def __init__(self, value:str, name=None,onchange=None,**a):
-        super().__init__(value,**a)
-        if name: self["name"]=name
-        self["class"].add("textarea")
-        self.value = value
-
-        if onchange:
-            self.onchange( onchange )
-
-
-    def setValue(self,value):   #OVERRIDE
-        self.value = value
-        self.set(value)
 
 
 
