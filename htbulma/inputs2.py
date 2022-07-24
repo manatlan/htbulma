@@ -45,11 +45,29 @@ class Options:
                 return int(value)
         return value
 
+
+class NewInput:
+
+    _value=None
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        self._value = value
+        # and draw
+        self._redraw()
+
+    def _redraw(self):
+        pass
 #########################################################################################################################
 ## Generics (not bulma related)
 #########################################################################################################################
 
-class Input(Tag.input,Options):
+class Input(Tag.input,Options,NewInput):
+    statics= """.disabled {pointer-events:none;cursor: not-allowed;opacity:0.5}"""
+
     """
     **a can be :
         _type : date,email,color,file etc ...
@@ -60,15 +78,6 @@ class Input(Tag.input,Options):
         _class
         _placeholder
     """
-    @property
-    def value(self):
-        return self._value
-
-    @value.setter
-    def value(self, value):
-        self._value = value
-        # and draw
-        self["value"]=self._value
 
     def __init__(self, value, options:list=[], name=None, **a):
         super().__init__(**a)
@@ -86,22 +95,14 @@ class Input(Tag.input,Options):
             self <= datalist
             self["list"] = id(datalist)
 
+    def _redraw(self):
+        self["value"]=self._value
+
     def _set(self,value:str): # when changed, keep the property value up-to-date
         self._value = self.fix_value_if_options(value)
 
 
-class Select(Tag.select,Options):
-
-    @property
-    def value(self):
-        return self._value
-
-    @value.setter
-    def value(self, value):
-        self._value = value
-        # and draw
-        self["value"]=self._value
-        self._redraw()
+class Select(Tag.select,Options,NewInput):
 
     def __init__(self, value, options:list,name=None,**a):
         super().__init__(**a)
@@ -111,10 +112,14 @@ class Select(Tag.select,Options):
 
         if name: self["name"]=name
 
+        if self["readonly"] or self["disabled"]:
+            self["class"].add("disabled")
+
         self.make_options(options)
         self.value = value  # redraw
 
     def _redraw(self):
+        self["value"]=self._value
         self.clear()
         if self._options:
             for k,v in self._options.items():
@@ -123,8 +128,12 @@ class Select(Tag.select,Options):
     def _set(self,value:str):
         self._value  = self.fix_value_if_options(value)
 
-class Checkbox(Tag.input):
 
+class Checkbox(Tag.input,NewInput):
+
+    #/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+    #/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\ overrides !
+    #/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
     @property
     def value(self):
         return self._value
@@ -142,91 +151,84 @@ class Checkbox(Tag.input):
         """
         self.clear()
         self["checked"]=self._value
+    #/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+    #/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+    #/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
     def __init__(self, value:bool, label=None, name=None,**a):
         super().__init__(**a)
-        self.value = value
+        self.value = value  # !important here
 
         self["class"].add("checkbox")
         self["type"]="checkbox"
         self["onchange"] = self.bind( self._set, b"this.checked").bind( a.get("_onchange",None) )
 
+        if self["readonly"] or self["disabled"]:
+            self["class"].add("disabled")
+
         if name: self["name"]=name
 
         if label:
-            self <= Tag.label(label,_for=str(id(self)))
+            self <= Tag.label(label,_for=str(id(self)),_class="disabled" if self["readonly"] or self["disabled"] else "")
 
     def _set(self,value:str):
         self._value = value in ["true","on","yes",True,1]
 
-class Range(Tag.input):
 
-    @property
-    def value(self):
-        return self._value
-
-    @value.setter
-    def value(self, value):
-        self._value = value
-        # and draw
-        self["value"]=self._value
+class Range(Tag.input,NewInput):
 
     def __init__(self, value, name=None,**a):
         super().__init__(**a)
-        self.value = value
 
         self["type"]="range"
         self["class"].add("control")
         if name: self["name"]=name
 
+        if self["readonly"]:
+            self["class"].add("disabled")
+
         self["onchange"] = self.bind( self._set, b"this.value" ).bind( a.get("_onchange",None) )
+
+        self.value = value
+
+    def _redraw(self):
+        self["value"]=self._value
 
     def _set(self,value):
         self._value = ast.literal_eval(value)
 
 
-class Textarea(Tag.Textarea):
-
-    @property
-    def value(self):
-        return self._value
-
-    @value.setter
-    def value(self, value):
-        self._value = value
-        # and draw
-        self.set( self._value )
+class Textarea(Tag.textarea,NewInput):
 
     def __init__(self, value:str, name=None,**a):
         super().__init__(**a)
-        self.value = value
 
         self["class"].add("textarea")
         self["onchange"] = self.bind( self._set, b"this.value" ).bind( a.get("_onchange",None) )    # assign an event to reflect change
 
+        if self["readonly"]:
+            self["class"].add("disabled")
+
         if name: self["name"]=name
+        self.value = value
+
+    def _redraw(self):
+        self.set( self._value )
 
     def _set(self,value:str):
         self._value = value
 
 
-class Radio(Tag.span,Options):
-
-    @property
-    def value(self):
-        return self._value
-
-    @value.setter
-    def value(self, value):
-        self._value = value
-        # and draw
-        self._redraw()
+class Radio(Tag.span,Options,NewInput):
 
     def __init__(self, value, options:list, name=None,**a):
         super().__init__(**a)
 
         self["class"].add("control")
         self["onchange"] = self.bind( a.get("_onchange",lambda o:None) )   # TODO: evol htag ?! bcoz 2 interactions
+
+        if self["readonly"] or self["disabled"]:
+            self["class"].add("disabled")
 
         self._default_name = name or ("r%s" % id(self))
 
@@ -249,24 +251,12 @@ class Radio(Tag.span,Options):
 ## Bulma specifics
 #########################################################################################################################
 
-class SelectButtons(Tag.div,Options):
+class SelectButtons(Tag.div,Options,NewInput):
     _bstyle_ = "is-toggle is-small"
-
-    @property
-    def value(self):
-        return self._value
-
-    @value.setter
-    def value(self, value):
-        self._value = value
-        # and draw
-        self.input["value"]=self._value
-        self._render()
 
     def __init__(self, value, options:list, name=None,**a):
         super().__init__(**a)
 
-        self._value=value
         self._options=options
         self._children=[]
 
@@ -280,13 +270,13 @@ class SelectButtons(Tag.div,Options):
 
         self<= self.input + self.u
 
-        self._render()
+        self.value=value
 
-
-    def _render(self):
+    def _redraw(self):
+        self.input["value"]=self._value
         self.u.clear()
         if self["disabled"] or self["readonly"]:
-            self.u["style"]="pointer-events: none;"
+            self.u["class"].add("disabled")
 
         for k,v in self._options.items():
             isActive = "is-active" if self._value == k else ""
@@ -298,7 +288,7 @@ class SelectButtons(Tag.div,Options):
     def _set(self,value):
         self._value = self.fix_value_if_options(value)
         self( self["onchange"] )
-        self._render()
+        self._redraw()
 
 class TabsHeader(SelectButtons):
     _bstyle_="is-centered" # "is-boxed is-centered"
@@ -329,9 +319,9 @@ class Test(Tag.body):
 
     def _render(self,o=None):
         commons={}
-        commons["_disabled"]=self.cb_disabled._value
-        commons["_readonly"]=self.cb_readonly._value
-        commons["_required"]=self.cb_required._value
+        commons["_disabled"]=self.cb_disabled.value
+        commons["_readonly"]=self.cb_readonly.value
+        commons["_required"]=self.cb_required.value
 
         self.main.clear()
         LIST = [0,1,12,13,14]
@@ -348,7 +338,7 @@ class Test(Tag.body):
         self.main <= SelectButtons("a",DICT,name="selectb_dict",**commons)
         self.main <= TabsHeader(12,LIST,name="tabsheader_list",**commons)
         self.main <= TabsHeader("a",DICT,name="tabsheader_dict",**commons)
-        self.main <= Textarea("hello",name="textarea")
+        self.main <= Textarea("hello",name="textarea",**commons)
         self.main <= Radio(12,LIST,name="rb_list",**commons)
         self.main <= Radio("a",DICT,name="rb_dict",**commons)
         self.main <= Range(10,_min=0, _max=100, name="range",**commons)
@@ -356,18 +346,18 @@ class Test(Tag.body):
         self.main <= Tag.button("Test the form post way",_class="button")
 
         for i in self.main.childs:
-            if i.tag!="button":
+            if issubclass(i.__class__,NewInput):
                 i["onchange"].bind( self.react ) # chain on the default event !
 
     def setall(self, v):
         print("Set all values to",v)
         for obj in self.main.childs:
-            if obj.tag!="button":
+            if issubclass(obj.__class__,NewInput):
                 obj.value=v
 
     def show(self, o):
         for obj in self.main.childs:
-            if obj.tag!="button":
+            if issubclass(obj.__class__,NewInput):
                 self.react(obj)
 
     def react(self, o ):
