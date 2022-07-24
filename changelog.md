@@ -1,3 +1,7 @@
+### 0.7.7 2022/07/24 "new inputs, compat ensured"
+
+ * fix fileselect current path displayed was bugged
+
 ### 0.7.6 2022/07/24 "new inputs, compat ensured"
 
  * fix the way the old param "onchange" is setted on new inputs

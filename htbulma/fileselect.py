@@ -57,8 +57,8 @@ function FileSelect_select(id) {
             else:
                 files.append(i)
 
-        if os.path.dirname(self.path).startswith(self._root):
-            self<= Tag.div( Tag.b( "&#11013; "+ path[len(self._root)+1:]),path=".." , _onclick=self._selectFolder)
+        if self.path != self._root:
+            self<= Tag.div( Tag.b( "&#11013; "+ path[len(self._root):]),path=".." , _onclick=self._selectFolder)
         for i in sorted(folders):
             self<= Tag.div( "📁 "+i, path=i, _onclick=self._selectFolder)
         for i in sorted(files):
