@@ -1,3 +1,7 @@
+### 0.7.6 2022/07/24 "new inputs, compat ensured"
+
+ * fix the way the old param "onchange" is setted on new inputs
+
 ### 0.7.5 2022/07/24 "new inputs, compat ensured"
 
  * all inputs use new htag features, and are more consistent .... and compatible with previous ones ! ....

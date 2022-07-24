@@ -18,8 +18,9 @@ def warn(o,where):
 from . import inputs2
 
 class OldInputCompat:
-    def __init__(self):
-        pass
+    def __init__(self,onchange=None):
+        if onchange:
+            self.onchange(onchange)
     def onchange(self,cb):
         warn(self,"onchange")
         self["onchange"].bind( cb )
@@ -29,48 +30,44 @@ class OldInputCompat:
 
 class Input(inputs2.Input,OldInputCompat):
     def __init__(self, value, options:inputs2.ListOrDict=[], name=None, onchange=None,**a):
-        super().__init__(value,options,name=name,_onchange=onchange, **a)
-        OldInputCompat.__init__(self)
+        super().__init__(value,options,name=name, **a)
+        OldInputCompat.__init__(self, onchange)
 
 
 class Range(inputs2.Range,OldInputCompat):
     def __init__(self, value, name=None,onchange=None,**a):
-        super().__init__(value,name=name,_onchange=onchange, **a)
-        OldInputCompat.__init__(self)
+        super().__init__(value,name=name, **a)
+        OldInputCompat.__init__(self, onchange)
 
 
 class Checkbox(inputs2.Checkbox,OldInputCompat):
     def __init__(self, value:bool, label:str, name=None,onchange=None,**a):
-        super().__init__(value,label=label,name=name,_onchange=onchange, **a)
-        OldInputCompat.__init__(self)
+        super().__init__(value,label=label,name=name, **a)
+        OldInputCompat.__init__(self, onchange)
 
 
 class Radio(inputs2.Radio,OldInputCompat):
     def __init__(self, value, options:inputs2.ListOrDict, name=None,onchange=None,**a):
         super().__init__(value,options,name=name, **a)
-        OldInputCompat.__init__(self)
-        if onchange:
-            self.onchange(onchange)
+        OldInputCompat.__init__(self, onchange)
 
 
 class Select(inputs2.Select,OldInputCompat):
     def __init__(self, value, options:inputs2.ListOrDict, name=None,onchange=None,**a):
-        super().__init__(value,options,name=name,_onchange=onchange, **a)
-        OldInputCompat.__init__(self)
+        super().__init__(value,options,name=name, **a)
+        OldInputCompat.__init__(self, onchange)
 
 
 class Textarea(inputs2.Textarea,OldInputCompat):
     def __init__(self, value:str, name=None,onchange=None,**a):
-        super().__init__(value,name=name,_onchange=onchange, **a)
-        OldInputCompat.__init__(self)
+        super().__init__(value,name=name, **a)
+        OldInputCompat.__init__(self, onchange)
 
 
 class SelectButtons(inputs2.SelectButtons,OldInputCompat):
     def __init__(self, value, options:inputs2.ListOrDict, name=None,onchange=None,**a):
         super().__init__(value,options,name=name, **a)
-        OldInputCompat.__init__(self)
-        if onchange:
-            self.onchange(onchange)
+        OldInputCompat.__init__(self, onchange)
 
 
 class TabsHeader(SelectButtons):
@@ -93,9 +90,9 @@ if __name__=="__main__":
         def __init__(self):
             super().__init__()
 
-            self.modders = SelectButtons(0,{0:"normal",4:"all required",5:"all readonly", 1:"all disabled",2:"style",3:"class"}, onchange= self.redraw )
+            self.modders = SelectButtons(0,{0:"normal",4:"all required",5:"all readonly", 1:"all disabled",2:"style",3:"class"}, _onchange= self.redraw )
 
-            self.tab = TabsHeader(0,{0:"Via Form",1:"Reactive",2:"Inside Fields"}, onchange= self.redraw )
+            self.tab = TabsHeader(0,{0:"Via Form",1:"Reactive",2:"Inside Fields"}, _onchange= self.redraw )
             self.visu = Tag.div()
             self.pre = Tag.pre()
 
@@ -174,44 +171,44 @@ if __name__=="__main__":
                 #====================================================
                 f=Tag.div()
                 f<= Content("All inputs are reactive and sent itself to the react() method")
-                f<= Textarea("hello",onchange= self.react,**commons)
+                f<= Textarea("hello",_onchange= self.react,**commons)
                 f<= HBox(
                     Input(2,onchange= self.react,**commons),
-                    Input(None,LIST,onchange= self.react,**commons),
-                    Input(None,DICT,onchange= self.react,**commons),
+                    Input(None,LIST,_onchange= self.react,**commons),
+                    Input(None,DICT,_onchange= self.react,**commons),
                 )
 
                 f<= HBox(
-                    Input("",_type="date",onchange= self.react, **commons),
-                    Input("",_type="month",onchange= self.react,**commons),
-                    Input("",_type="time",onchange= self.react,**commons),
-                    Input("",_type="password",onchange= self.react,**commons),
-                    Input("",_type="color",onchange= self.react,**commons),
-                    Input("",_type="file",onchange= self.react,**commons),    # not a great sense, either !
+                    Input("",_type="date",_onchange= self.react, **commons),
+                    Input("",_type="month",_onchange= self.react,**commons),
+                    Input("",_type="time",_onchange= self.react,**commons),
+                    Input("",_type="password",_onchange= self.react,**commons),
+                    Input("",_type="color",_onchange= self.react,**commons),
+                    Input("",_type="file",_onchange= self.react,**commons),    # not a great sense, either !
                 )
 
 
                 f<= HBox(
-                    Radio(2,LIST,onchange= self.react,**commons),
-                    Radio("B",DICT,onchange= self.react,**commons),
+                    Radio(2,LIST,_onchange= self.react,**commons),
+                    Radio("B",DICT,_onchange= self.react,**commons),
                 )
 
                 f<= HBox(
-                    SelectButtons(2,LIST, onchange = self.react,**commons),
-                    SelectButtons("B",DICT, onchange = self.react,**commons),
+                    SelectButtons(2,LIST, _onchange = self.react,**commons),
+                    SelectButtons("B",DICT, _onchange = self.react,**commons),
                 )
 
                 f<= HBox(
-                    Select(2,LIST,onchange= self.react,**commons),
-                    Select("B",DICT,onchange= self.react,**commons),
+                    Select(2,LIST,_onchange= self.react,**commons),
+                    Select("B",DICT,_onchange= self.react,**commons),
                 )
 
                 f<= HBox(
-                    Checkbox(True,"homme",onchange= self.react,**commons),
-                    Checkbox(False,"femme",onchange= self.react,**commons),
+                    Checkbox(True,"homme",_onchange= self.react,**commons),
+                    Checkbox(False,"femme",_onchange= self.react,**commons),
                 )
 
-                f<= Range(12, _min=10, _max=78, _step=2,onchange= self.react,**commons)
+                f<= Range(12, _min=10, _max=78, _step=2,_onchange= self.react,**commons)
 
                 self.pre.set( "Interact with an input ;-)" )
             else:
