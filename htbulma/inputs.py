@@ -12,23 +12,23 @@ from htag.tag import Caller
 import json,html
 
 
-def warn(o):
-    print("**WARNING** DEPRECATED use new form",o.__class__.__name__)
+def warn(o,where):
+    print(f"**WARNING** DEPRECATED remove '{where}()' for ",o.__class__.__name__)
 
 from . import inputs2
 
 class OldInputCompat:
     def __init__(self):
-        warn(self)
+        pass
     def onchange(self,cb):
-        warn(self)
+        warn(self,"onchange")
         self["onchange"].bind( cb )
     def setValue(self,value):
-        warn(self)
+        warn(self,"setValue")
         self.value = value
 
 class Input(inputs2.Input,OldInputCompat):
-    def __init__(self, value, options:list=[], name=None, onchange=None,**a):
+    def __init__(self, value, options:inputs2.ListOrDict=[], name=None, onchange=None,**a):
         super().__init__(value,options,name=name,_onchange=onchange, **a)
         OldInputCompat.__init__(self)
 
@@ -46,14 +46,14 @@ class Checkbox(inputs2.Checkbox,OldInputCompat):
 
 
 class Radio(inputs2.Radio,OldInputCompat):
-    def __init__(self, value, options:list, name=None,onchange=None,**a):
+    def __init__(self, value, options:inputs2.ListOrDict, name=None,onchange=None,**a):
         super().__init__(value,options,name=name, **a)
         OldInputCompat.__init__(self)
         self.onchange(onchange)
 
 
 class Select(inputs2.Select,OldInputCompat):
-    def __init__(self, value, options:list, name=None,onchange=None,**a):
+    def __init__(self, value, options:inputs2.ListOrDict, name=None,onchange=None,**a):
         super().__init__(value,options,name=name,_onchange=onchange, **a)
         OldInputCompat.__init__(self)
 
@@ -65,7 +65,7 @@ class Textarea(inputs2.Textarea,OldInputCompat):
 
 
 class SelectButtons(inputs2.SelectButtons,OldInputCompat):
-    def __init__(self, value, options:list, name=None,onchange=None,**a):
+    def __init__(self, value, options:inputs2.ListOrDict, name=None,onchange=None,**a):
         super().__init__(value,options,name=name, **a)
         OldInputCompat.__init__(self)
         self.onchange(onchange)

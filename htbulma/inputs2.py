@@ -12,6 +12,10 @@ import ast,json
 # import json,html
 from htbulma import TagBulma, Form
 
+from typing import Sequence,Union,Optional,Any,Callable,Type
+
+ListOrDict = Union[ list, dict]
+
 
 """
 new inputs (**WORK IN PROGRESS**)
@@ -31,7 +35,7 @@ AND HTAG.BIND.PRIOR will disappear !!!! (non sense, now)
 
 class Options:
 
-    def __init__(self,options):
+    def __init__(self,options:ListOrDict):
         if isinstance(options,list):
             self._options = {i:i for i in options}
         elif isinstance(options,dict):
@@ -79,7 +83,7 @@ class Input(Tag.input,Options,NewInput):
         _placeholder
     """
 
-    def __init__(self, value, options:list=[], name=None, **a):
+    def __init__(self, value, options:ListOrDict=[], name=None, **a):
         Options.__init__(self,options)
         super().__init__(**a)
         self.value=value  # store the real value in a property value
@@ -104,7 +108,7 @@ class Input(Tag.input,Options,NewInput):
 
 class Select(Tag.select,Options,NewInput):
 
-    def __init__(self, value, options:list,name=None,**a):
+    def __init__(self, value, options:ListOrDict,name=None,**a):
         Options.__init__(self,options)
         super().__init__(**a)
 
@@ -221,7 +225,7 @@ class Textarea(Tag.textarea,NewInput):
 
 class Radio(Tag.span,Options,NewInput):
 
-    def __init__(self, value, options:list, name=None,**a):
+    def __init__(self, value, options:ListOrDict, name=None,**a):
         Options.__init__(self,options)
         super().__init__(**a)
 
@@ -257,7 +261,7 @@ class Radio(Tag.span,Options,NewInput):
 class SelectButtons(Tag.div,Options,NewInput):
     _bstyle_ = "is-toggle is-small"
 
-    def __init__(self, value, options:list, name=None,**a):
+    def __init__(self, value, options:ListOrDict, name=None,**a):
         Options.__init__(self,options)
         super().__init__(**a)
 
@@ -297,7 +301,7 @@ class TabsHeader(SelectButtons):
 ##############################################################################
 
 from htag.runners import DevApp
-
+#TODO: remove that devapp !
 class Test(Tag.body):
     def init(self):
         self.cb_disabled= Checkbox(False,"disabled",_onchange = self._render)

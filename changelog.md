@@ -1,7 +1,13 @@
 ### WORK IN PROGRESS
 
  * all inputs use new htag features, and are more consistent .... and compatible with previous ones ! ....
-   (but DEPRECATED ... because in next releases, it won't)
+   (but DEPRECATED ... because in futures releases, it won't (remove .onchange() & .setValue() soon))
+
+    - readonly act like disabled (simpler)
+    - self.value : is a reactive property (setting it redraw the widget)
+    - all inputs send onchange event to set value on back side (reactive by default), in self.value
+    - every widget doesn't redraw itself on change (so doesn't blur the focus (except composite ones))
+    - _onchange is a classic onchange (chained with bind!) (htag.bind.prior can be removed !)
 
 ### 0.7.4 2022/07/18
 
