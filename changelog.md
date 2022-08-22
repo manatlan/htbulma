@@ -1,3 +1,9 @@
+### 0.7.8 2022/08/22
+
+ - mbox.show don't use H anymore (so objects are attached to main page)
+ - add new object "Loader()" (spinner icon is-loading)
+ - "test.py", use DevApp now ;-)
+
 ### 0.7.7 2022/07/24 "new inputs, compat ensured"
 
  * fix fileselect current path displayed was bugged

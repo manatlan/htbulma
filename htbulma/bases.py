@@ -15,6 +15,14 @@ class Progress(TagBulma,Tag.progress):
         super().__init__(**a)
         self["class"].add("progress","is-dark")
 
+class Loader(TagBulma,Tag.span):
+    """ it's clearly not the best bulma way to got that ;-)"""
+    def __init__(self,**a):
+        super().__init__(None,**a)
+        self["class"].add("button","is-loading")
+        self["style"].set("border","0px !important")
+
+
 class Content(TagBulma,Tag.div):
 
     def __init__(self,txt=None,**a):

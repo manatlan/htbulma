@@ -22,21 +22,21 @@ class MBox(TagBulma):
 
     def show(self, content, canClose=True, full=False):
         self.clear()
-        o = Tag.H.div(_class = "modal is-active")
+        o = Tag.div(_class = "modal is-active")
 
         jsclose= self.bind.close()
 
-        bg=Tag.H.div(_class="modal-background")
+        bg=Tag.div(_class="modal-background")
         o <= bg
         if canClose:
             bg["onclick"]=jsclose
-            o <= Tag.H.div(
+            o <= Tag.div(
                     _class="modal-close is-large",
                     _aria_label="close",
                     _onclick=jsclose,
                 )
 
-        o <= Tag.H.div( Box( content , _style="height:100%;overflow-y:auto" if full else None) , _class="modal-content", _style = "width:90%;height:98%;" if full else None )
+        o <= Tag.div( Box( content , _style="height:100%;overflow-y:auto" if full else None) , _class="modal-content", _style = "width:90%;height:98%;" if full else None )
 
 
         self.add( o )
