@@ -1,3 +1,8 @@
+### 0.7.9 2022/08/24
+
+ - new object: NavSide
+ - and fix some object to be able to autoset html_attribut / properties
+
 ### 0.7.8 2022/08/22
 
  - mbox.show don't use H anymore (so objects are attached to main page)

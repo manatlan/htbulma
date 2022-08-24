@@ -33,7 +33,7 @@ function FileSelect_select(id) {
 }
 
 """
-    def init(self,path,onselect,pattern="*"):
+    def init(self,path,onselect,pattern="*",**a):
         self["class"].add("FileSelect")
         self.onselect=onselect
 

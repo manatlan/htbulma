@@ -14,7 +14,7 @@ class Nav(TagBulma):
 
     imports = A
 
-    def __init__(self, title):
+    def __init__(self, title, **a):
         super().__init__()
         self["role"]="navigation"
         self["aria-label"]="main navigation"
