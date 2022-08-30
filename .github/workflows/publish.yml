@@ -24,7 +24,7 @@ jobs:
         python -m pip install htag
     - name: Test htbulma # tests are lights ;-)
       run: |
-         python3 -c "import htbulma;print(htbulma.__version__)"
+         python -c "import htbulma;print(htbulma.__version__)"
     - name: Build and publish to pypi
       uses: JRubics/poetry-publish@v1.12
       with:
