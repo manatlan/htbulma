@@ -1,3 +1,7 @@
+### 0.7.10 2022/08/31
+
+ - just to make the package compatible with htag >= 0.7.0 (so htag 0.8.0 is compat ;-))
+
 ### 0.7.9 2022/08/24
 
  - new object: NavSide
