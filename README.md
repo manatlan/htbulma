@@ -2,8 +2,6 @@
 
 Example of gui toolkit using [htag](https://github.com/manatlan/htag).
 
-[available on pypi](https://pypi.org/project/htbulma/)
-
 <a href="https://pypi.org/project/htbulma/">
     <img src="https://badge.fury.io/py/htbulma.svg" alt="Package version">
 </a>
