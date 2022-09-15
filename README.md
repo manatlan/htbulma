@@ -4,6 +4,10 @@ Example of gui toolkit using [htag](https://github.com/manatlan/htag).
 
 [available on pypi](https://pypi.org/project/htbulma/)
 
+<a href="https://pypi.org/project/htbulma/">
+    <img src="https://badge.fury.io/py/htbulma.svg" alt="Package version">
+</a>
+
 **Just to be clear** : This module is just for me ;-). It's just here to demonstrate that you can build a py3 module, containnig a set of [htag](https://github.com/manatlan/htag)'s components, ready to be used, in you [htag](https://github.com/manatlan/htag) app.
 
 Of course, you can use it, at your own risk. But be aware that :
