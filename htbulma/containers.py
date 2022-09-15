@@ -17,7 +17,7 @@ from htag import Tag
 from . import TagBulma
 
 class VBox(TagBulma):
-    statics = [Tag.H.style("""
+    statics = [Tag.style("""
 .vbox {display: flex;flex-flow: column nowrap;}
 .vbox > * {flex: 1 1 auto;margin:1px !important;}
 """)]
@@ -30,7 +30,7 @@ class VBox(TagBulma):
 
 
 class HBox(TagBulma):
-    statics = [Tag.H.style("""
+    statics = [Tag.style("""
 .hbox {display: flex;flex-flow: row nowrap;align-items:center}
 .hbox > * {flex: 1 1 auto;margin:1px !important;}
 """)]

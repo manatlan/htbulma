@@ -12,7 +12,7 @@ import os,base64
 
 
 class FileUpload(Tag.input):
-    statics=[Tag.H.script(r"""
+    statics=[Tag.script(r"""
 function fileupload( self, cbInteract ) {
     let file = self.files[0];
     var reader = new FileReader();

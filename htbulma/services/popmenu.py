@@ -17,6 +17,8 @@ class PopMenu(TagBulma):
     def __init__(self, parent):
         """ auto attach on 'parent' """
         TagBulma.__init__(self)
+        print("**DEPRECATED** don't use PopMenu, use the new Service !")
+
         parent <= self
         self._parent = parent
         self._menu={}
@@ -30,22 +32,22 @@ class PopMenu(TagBulma):
     def __str__(self):
         self.clear()
         if self._menu and self._menu.get("entries"):
-            entries=Tag.H.ul(_class="menu-list")
+            entries=Tag.ul(_class="menu-list")
             for name,callback in self._menu["entries"].items():
-                entries<= Tag.H.li( Tag.H.a(name,_onclick=self.bind.close(name)) )
+                entries<= Tag.li( Tag.a(name,_onclick=self.bind.close(name)) )
 
             if "pos" in self._menu:
                 fix="left:%spx;top:%spx" % (self._menu["pos"]["x"],self._menu["pos"]["y"])
             else:
                 fix=""
 
-            self <= Tag.H.div(
+            self <= Tag.div(
                 _class="modal-background",
                 _onclick=self.bind.close(),
                 _style="background-color:inherit"
             )
-            self <= Tag.H.div(
-                Tag.H.aside( entries,_class="menu"),
+            self <= Tag.div(
+                Tag.aside( entries,_class="menu"),
                 _class="card",
                 _style="position:fixed;z-index:10000;padding:2px;"+fix,
             )

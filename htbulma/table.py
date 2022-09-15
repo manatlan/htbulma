@@ -30,7 +30,7 @@ class Table(TagBulma):
     def update(self):
         self.clear()
         if self.cols:
-            h = Tag.thead( [Tag.H.th(col) for col in self.cols] )
+            h = Tag.thead( [Tag.th(col) for col in self.cols] )
         else:
             h = None
 
@@ -46,40 +46,40 @@ class Table(TagBulma):
         ll = []
         for row in rows:
             row = row if hasattr(row, "__iter__") else [row]
-            ll.append(Tag.H.tr( [Tag.H.td(col) for col in row]) )
+            ll.append(Tag.tr( [Tag.td(col) for col in row]) )
 
-        t=Tag.H.table( _class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth")
+        t=Tag.table( _class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth")
         t <= h
-        t <= Tag.H.tbody(ll)
+        t <= Tag.tbody(ll)
 
         self <= t
 
         if self.pageSize and nbPage >1:
-            nav = Tag.H.nav(
+            nav = Tag.nav(
                 _class="pagination is-small", _role="navigation", _aria_label="pagination"
             )
             if self.pageIndex > 0:
                 nav.add(
-                    Tag.H.a(
+                    Tag.a(
                         "<<",
                         _class="pagination-previous",
                         _onclick=self.bind.setPage(self.pageIndex - 1),
                     )
                 )
             else:
-                nav.add(Tag.H.a("<<", _class="pagination-previous", _disabled=True))
+                nav.add(Tag.a("<<", _class="pagination-previous", _disabled=True))
             if self.pageIndex < nbPage - 1:
                 nav.add(
-                    Tag.H.a(
+                    Tag.a(
                         ">>",
                         _class="pagination-next",
                         _onclick=self.bind.setPage(self.pageIndex + 1),
                     )
                 )
             else:
-                nav.add(Tag.H.a(">>", _class="pagination-next", _disabled=True))
+                nav.add(Tag.a(">>", _class="pagination-next", _disabled=True))
 
-            ul = Tag.H.ul(_class="pagination-list")
+            ul = Tag.ul(_class="pagination-list")
             for i in range(0, nbPage):
                 if (i == 0 or i == nbPage - 1 or self.pageIndex - 3 <= i <= self.pageIndex + 3):
                     klass = (
@@ -88,8 +88,8 @@ class Table(TagBulma):
                         else "pagination-link"
                     )
                     ul.add(
-                        Tag.H.li(
-                            Tag.H.a(
+                        Tag.li(
+                            Tag.a(
                                 (i + 1),
                                 _class=klass,
                                 _aria_label="Goto page %s" % (i + 1),
@@ -100,7 +100,7 @@ class Table(TagBulma):
                     hole = False
                 else:
                     if not hole:
-                        ul.add(Tag.H.li(Tag.H.a("&hellip;", _class="pagination-ellipsis")))
+                        ul.add(Tag.li(Tag.a("&hellip;", _class="pagination-ellipsis")))
                         hole = True
 
             nav.add(ul)

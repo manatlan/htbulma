@@ -7,6 +7,23 @@
 # https://github.com/manatlan/htbulma
 # #############################################################################
 
+# DEPRECATED
+# DEPRECATED
+# DEPRECATED
+# DEPRECATED
+# DEPRECATED
+# DEPRECATED
+# DEPRECATED
+# DEPRECATED
+# DEPRECATED
+# DEPRECATED
+# DEPRECATED
+# DEPRECATED
+# DEPRECATED
+# DEPRECATED
+# DEPRECATED
+# DEPRECATED, should disappear, one day
+
 """
 Contains objects which auto-attach on parent
 Theses objects should be in the parent, they are not displayed by default

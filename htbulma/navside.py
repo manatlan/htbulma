@@ -88,7 +88,7 @@ function hideMenu()   { document.body.classList.remove("menuShow") }
 
         width_m="80%"
 
-        self <= Tag.H.style(f"""
+        self <= Tag.style(f"""
 :root {{
   --ns-top: 52px;
   --ns-width: {width};

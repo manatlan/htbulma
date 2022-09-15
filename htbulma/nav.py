@@ -34,13 +34,13 @@ class Nav(TagBulma):
 
     def update(self):  # DYNAMIC RENDERING HERE !
         self.clear()
-        divBrand = Tag.H.div(_class="navbar-brand")
-        divBrand <= Tag.H.b(self.title,  _class="navbar-item")
+        divBrand = Tag.div(_class="navbar-brand")
+        divBrand <= Tag.b(self.title,  _class="navbar-item")
         if self._entries_first or self._entries_end:
             divBrand <= A(
-                [Tag.H.span(_aria_hidden=True),
-                Tag.H.span(_aria_hidden=True),
-                Tag.H.span(_aria_hidden=True),
+                [Tag.span(_aria_hidden=True),
+                Tag.span(_aria_hidden=True),
+                Tag.span(_aria_hidden=True),
                 ],
                 _role="button",
                 _class="navbar-burger burger",
@@ -50,18 +50,18 @@ class Nav(TagBulma):
                 _onclick="this.classList.toggle('is-active');document.querySelector('.navbar-menu').classList.toggle('is-active')",
             )
 
-        menu = Tag.H.div(_class="navbar-start")
+        menu = Tag.div(_class="navbar-start")
         for k, v in self._entries_first.items():
             menu <= A(k, _class="navbar-item", _onclick=self.bind.evtSelectEntry(k))
 
         if self._entries_end:
-            menuEnd = Tag.H.div(_class="navbar-end")
+            menuEnd = Tag.div(_class="navbar-end")
             for k, v in self._entries_end.items():
                 menuEnd <= A(k, _class="navbar-item", _onclick=self.bind.evtSelectEntry(k))
         else:
             menuEnd = None
 
-        divMenu = Tag.H.div( [menu, menuEnd], _class="navbar-menu")
+        divMenu = Tag.div( [menu, menuEnd], _class="navbar-menu")
 
         self <= divBrand
         self <= divMenu

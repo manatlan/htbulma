@@ -17,6 +17,7 @@ class MBox(TagBulma):
     def __init__(self, parent):
         """ auto attach on 'parent' """
         super().__init__()
+        print("**DEPRECATED** don't use MBox, use the new Service !")
         self["info"]="mbox"
         parent.add( self )
 
@@ -48,8 +49,8 @@ class MBox(TagBulma):
 
         main = Content( content )
         main <= HBox(
-            Tag.H.div(_style="flex: 1 0 25%;"),
-            Tag.H.div(_style="flex: 1 0 25%;"),
+            Tag.div(_style="flex: 1 0 25%;"),
+            Tag.div(_style="flex: 1 0 25%;"),
             Button(txtko, _onclick=self.bind._confirm(0), _class="is-light",_style="flex: 1 0 25%;"),
             Button(txtok, _onclick=self.bind._confirm(1), js="tag.focus()",_onkeyup = js , _style="flex: 1 0 25%;"),
         )
@@ -74,8 +75,8 @@ class MBox(TagBulma):
         main = Content( Tag.h3(title) )
         main <= input
         main <= HBox(
-            Tag.H.div(_style="flex: 1 0 25%;"),
-            Tag.H.div(_style="flex: 1 0 25%;"),
+            Tag.div(_style="flex: 1 0 25%;"),
+            Tag.div(_style="flex: 1 0 25%;"),
             Button(txtko, _onclick=self.bind._prompt(), _class="is-light",_style="flex: 1 0 25%;"),
             Button(txtok, _onclick=self.bind._prompt( b"document.getElementById('%d').value" % id(input)) ,_style="flex: 1 0 25%;"),
             _style="margin-top:10px"

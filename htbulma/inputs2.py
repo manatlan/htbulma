@@ -55,7 +55,7 @@ class NewInput:
     def _redraw(self):
         pass
 
-    
+
 #########################################################################################################################
 ## Generics (not bulma related)
 #########################################################################################################################
@@ -87,7 +87,7 @@ class Input(Tag.input,Options,NewInput):
 
         if self._options:
             self["type"]="search"
-            datalist = Tag.datalist( [Tag.H.option(v,_value=k) for k,v in self._options.items()] )
+            datalist = Tag.datalist( [Tag.option(v,_value=k) for k,v in self._options.items()] )
             self <= datalist
             self["list"] = id(datalist)
 
@@ -119,7 +119,7 @@ class Select(Tag.select,Options,NewInput):
         self.clear()
         if self._options:
             for k,v in self._options.items():
-                self <= Tag.H.option( v, _value=k, _selected = (self._value == k) )
+                self <= Tag.option( v, _value=k, _selected = (self._value == k) )
 
     def _set(self,value:str):
         self._value  = self.fix_value_if_options(value)
@@ -240,7 +240,7 @@ class Radio(Tag.span,Options,NewInput):
             for k,v in self._options.items():
                 i=Tag.input(_type="radio", _value=k, _checked = (self._value==k), _name = self._default_name,_disabled=self._disabled )
                 i["onchange"] = self.bind( self._set, b"this.value" )
-                self <= Tag.H.label( [i," ",v], _class="radio" )
+                self <= Tag.label( [i," ",v], _class="radio" )
 
 
     def _set(self,value):
@@ -261,7 +261,7 @@ class SelectButtons(Tag.div,Options,NewInput):
         self["onchange"] = self.bind( a.get("_onchange",lambda o:None) )   # TODO: evol htag ?! bcoz 2 interactions
 
         self.input = Tag.input(_name=name,_type="hidden",_value=self._value, **a)
-        self.u = Tag.H.ul()
+        self.u = Tag.ul()
 
         self<= self.input + self.u
 
@@ -276,9 +276,9 @@ class SelectButtons(Tag.div,Options,NewInput):
         for k,v in self._options.items():
             isActive = "is-active" if self._value == k else ""
             if self["disabled"]:
-                self.u<=Tag.H.li(Tag.H.a(v,_disabled=True), _class=isActive, _disabled=True)
+                self.u<=Tag.li(Tag.a(v,_disabled=True), _class=isActive, _disabled=True)
             else:
-                self.u<=Tag.H.li(Tag.a(v, _onclick=self.bind(  self._set, k )), _class=isActive)
+                self.u<=Tag.li(Tag.a(v, _onclick=self.bind(  self._set, k )), _class=isActive)
 
     def _set(self,value):
         self._value = self.fix_value_if_options(value)

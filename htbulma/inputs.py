@@ -86,7 +86,7 @@ if __name__=="__main__":
     DICT = dict(A="Albert",B="Bonnie",C="Clyde")
 
     class Page(Tag.div):
-        statics = [Tag.H.style(""".myclass {border: 1px solid blue !important;background:#AFA !important}""")]
+        statics = [Tag.style(""".myclass {border: 1px solid blue !important;background:#AFA !important}""")]
         def __init__(self):
             super().__init__()
 

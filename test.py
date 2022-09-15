@@ -17,8 +17,7 @@ class Page(Tag):
         self.select=2
         self.disabled=False
         self.ll = [(i + 1, i + 1, i + 1, i + 1, i + 1) for i in range(33)]
-        self.mbox = b.MBox( self )
-        self.toast = b.Toaster( self )
+        self.s = b.Service( self )
 
 
         group1=Tag.div()
@@ -50,7 +49,7 @@ class Page(Tag):
         split=b.HSplit( group2, table , sizes=[30,70])
 
         def showFile(n):
-            self.toast.show( n, 1000 )
+            self.s.toast( n, 1000 )
 
         commons={}
         f=b.Fields()
@@ -71,12 +70,12 @@ class Page(Tag):
         tab.selected = "Tab2"
 
         def action(v):
-            self.toast.show( f"Action v={v}" )
+            self.s.toast( f"Action v={v}" )
 
         nav= b.Nav("HTag Demo")
         nav.addEntry("alert", self.affmodal )
-        nav.addEntry("confirm", lambda: self.mbox.confirm("Sure ?",ok=lambda: action(True)))  # declare an entry in the nav bar
-        nav.addEntry("prompt",  lambda: self.mbox.prompt("What is your name ?","",ok=action))  # declare an entry in the nav bar
+        nav.addEntry("confirm", lambda: self.s.confirm("Sure ?",ok=lambda o: action("ok"))   )  # declare an entry in the nav bar
+        nav.addEntry("prompt",  lambda: self.s.prompt("What is your name ?","",ok=lambda o: action(o.value)) )  # declare an entry in the nav bar
 
         nav.addEntry( "exit", lambda: self.exit(), True )
 
@@ -84,14 +83,14 @@ class Page(Tag):
         self <= b.Section() <= tab
 
     def affmodal(self):
-        self.mbox.show( MyTabs(_style="border:1px solid red") )
+        self.s.alert( MyTabs(_style="border:1px solid red") )
 
     def afftoast(self):
-        self.toast.show( "Hello World", 1000 )
+        self.s.toast( "Hello World", 1000 )
 
     def onchange(self,obj):
         print("++++++++++++++++++++++",obj)
-        self.toast.show( obj.value, 1000 )
+        self.s.toast( obj.value, 1000 )
 
     def doit(self,obj):
         # yield "a"
