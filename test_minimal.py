@@ -1,4 +1,10 @@
 import pytest
+"""
+Currently the pytests are very very limited, and very very generic
+(but they exists ;-)
+
+All others reals/tests should be run manually with a real browser, in a real env ;-(
+"""
 
 import htbulma as b
 from htag import Tag
