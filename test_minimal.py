@@ -5,6 +5,7 @@ from htag import Tag
 
 def test_version():
     assert b.__version__
+    print("HTBulma %s" % b.__version__)
 
 def test_constructor():
     """ the most obvious thing to (badly) test htbulm's objects
@@ -22,7 +23,7 @@ def test_constructor():
         else:
             try:
                 instance=i()
-                print("NO PARAM:",i,repr(instance))
+                print("(WITHOUT PARAM):",i,repr(instance))
             except TypeError as e:
                 p.append(i)
 
@@ -30,13 +31,13 @@ def test_constructor():
     for i in p:
         try:
             instance=i("row")
-            print("ONE PARAM:",i,repr(instance))
+            print("(WITH 1 PARAM):",i,repr(instance))
         except TypeError as e:
             pp.append(i)
 
     for i in pp:
         instance=i(".",".")
-        print("TWO PARAM:",i,repr(instance))
+        print("(WITH 2 PARAMS):",i,repr(instance))
 
     # if it works -> all objects can be instanciated with 0, 1 or 2 params
     
