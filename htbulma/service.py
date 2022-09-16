@@ -105,9 +105,9 @@ class Service(TagBulma):
 
     def _reroot(self):
         """ ensure that this object is attached to a parent/main (_root)
-            if not (after a clear()), it re-adds itself to _root ;-)
+            if not (after a clear()), it re-adds itself to _root (parented object) ;-)
         """
-        if self.parent is None:
+        if self not in self._root.childs:
             self._root.add(self)
 
 

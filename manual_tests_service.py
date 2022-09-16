@@ -6,9 +6,13 @@ class App(Tag.body):
 
     def init(self):
         self._s = b.Service(self)
+        self.redraw()
 
+    def redraw(self,o=None):
+        self.clear()
         self += Tag.button( "Popmenu", _onclick=self.pmenu)
         self += Tag.button( "Toast", _onclick=self.toast)
+        self += Tag.button( "clear/redraw", _onclick=self.redraw)
 
     def pmenu(self,o):
         entries=[

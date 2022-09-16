@@ -13,6 +13,18 @@ def test_version():
     assert b.__version__
     print("HTBulma %s" % b.__version__)
 
+
+def test_service_reroot_after_clear():
+    app=Tag.div()
+    app.service = b.Service(app)
+    assert app.service in app.childs
+
+    app.clear()
+    assert app.service not in app.childs
+    app.service._reroot()
+    assert app.service in app.childs
+
+
 def test_constructor():
     """ the most obvious thing to (badly) test htbulm's objects
     it tries to instanciate them, with 0, 1 or 2 parameters
@@ -20,7 +32,7 @@ def test_constructor():
     assert b.ALL
 
     parent = Tag.div()
-    
+
     p=[]    # list for non zero parameter
     for i in b.ALL:
         if "service" in str(i):
@@ -46,5 +58,5 @@ def test_constructor():
         print("(WITH 2 PARAMS):",i,repr(instance))
 
     # if it works -> all objects can be instanciated with 0, 1 or 2 params
-    
+
 #test_constructor()
