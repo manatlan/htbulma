@@ -33,7 +33,11 @@ class Tabs(TagBulma): # New version (NOT htag optimized ;-()
         if self.__selected:
             if len(ll)>0:
                 self <= TabsHeader(self.__selected, ll, _onchange= self._setselected )
-                self <= self.__tabs[ self.__selected ]
+                try: # to be compatible with htag>0.8.9
+                    #TODO: remove when new htag is widely deployed
+                    self.add( self.__tabs[ self.__selected ], True) # reparenting
+                except:
+                    self.add( self.__tabs[ self.__selected ] )
 
     @property
     def selected(self):
