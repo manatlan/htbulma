@@ -44,7 +44,7 @@ if __name__=="__main__":
     # and not produce JS (close timeout)
     Toaster.__call__ = lambda x,y:x
 
-    obj=Tag( )
+    obj=Tag.div( )
     Toaster(obj).show( Box("Hello") )
 
     from .. import _test

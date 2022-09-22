@@ -9,7 +9,7 @@
 
 from htag import Tag
 
-class Clipboard(Tag):
+class Clipboard(Tag.div):
     tag="div"
     def __init__(self,parent):
         """ auto attach parent """
@@ -31,7 +31,7 @@ tag.removeChild(ta);
 if __name__=="__main__":
     from htag.runners import PyWebWiew,BrowserHTTP
 
-    class Obj(Tag):
+    class Obj(Tag.div):
         def __init__(self):
             super().__init__()
             self.cc = Clipboard(self)

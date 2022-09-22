@@ -12,7 +12,7 @@ class MyTabs(b.Tabs):  # inherit
         self.addTab("P1", "I'm the page1")
         self.addTab("P2", "Currently, I am the page2 !")
 
-class Page(Tag):
+class Page(Tag.body):
     def init(self):
         self.select=2
         self.disabled=False

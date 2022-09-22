@@ -102,7 +102,7 @@ if __name__=="__main__":
     def majko():
         print("ko")
 
-    obj=Tag( )
+    obj=Tag.div( )
     MBox(obj).show( Content("YO"), canClose=False )
     # MBox(obj).show( Content("YO"), full=True )
     # MBox(obj).confirm("hello ? sure ?????", ok=majok, ko=majko)

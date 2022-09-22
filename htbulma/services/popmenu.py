@@ -66,7 +66,7 @@ class PopMenu(TagBulma):
 
 
 if __name__=="__main__":
-    class Obj(Tag):
+    class Obj(Tag.div):
         def __init__(self,**a):
             Tag.__init__(self,**a)
 
