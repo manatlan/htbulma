@@ -9,21 +9,23 @@
 from htag import Tag
 from . import TagBulma
 
-class Progress(TagBulma,Tag.progress):
+class Progress(TagBulma):
 
     def __init__(self,**a):
+        self.tag="progress" # enforce the html tag (bicoz TagBulma is nativly a div)
         super().__init__(**a)
         self["class"].add("progress","is-dark")
 
-class Loader(TagBulma,Tag.span):
+class Loader(TagBulma):
     """ it's clearly not the best bulma way to got that ;-)"""
     def __init__(self,**a):
+        self.tag="span" # enforce the html tag (bicoz TagBulma is nativly a div)
         super().__init__(None,**a)
         self["class"].add("button","is-loading")
         self["style"].set("border","0px !important")
 
 
-class Content(TagBulma,Tag.div):
+class Content(TagBulma):
 
     def __init__(self,txt=None,**a):
         super().__init__(**a)
@@ -31,17 +33,19 @@ class Content(TagBulma,Tag.div):
         self <= txt
 
 
-class Button(TagBulma,Tag.button):
+class Button(TagBulma):
 
     def __init__(self,txt=None,**a):
+        self.tag="button" # enforce the html tag (bicoz TagBulma is nativly a div)
         super().__init__(**a)
         self["class"].add("button","is-link")
         self <= txt
 
 
-class A(TagBulma,Tag.a):
+class A(TagBulma):
 
     def __init__(self,txt,**a):
+        self.tag="a" # enforce the html tag (bicoz TagBulma is nativly a div)
         super().__init__(**a)
         self["class"].add("a","is-link")
         self <= txt
@@ -54,6 +58,8 @@ if __name__=="__main__":
     obj<= Button("Hello", _class="is-small")
     obj<= Button("Hello",_class="is-success")
     obj<= A("Hello",_href="#")
+    obj <= Progress()
+    obj <= Loader()
 
     from . import _test
     _test( obj )

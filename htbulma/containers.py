@@ -49,8 +49,10 @@ class Box(TagBulma):
             self <= o
 
 
-class Section(TagBulma,Tag.section):
+class Section(TagBulma):
     def __init__(self,*objs,**a):
+        self.tag="section" # enforce the html tag (bicoz TagBulma is nativly a div)
+
         super().__init__(**a)
         self["class"].add("section")
         for o in objs:
