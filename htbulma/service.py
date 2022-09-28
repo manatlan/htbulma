@@ -108,7 +108,7 @@ class Service(TagBulma):
             if not (after a clear()), it re-adds itself to _root (parented object) ;-)
         """
         if self not in self._root.childs:
-            self._root.add(self)
+            self._root.add(self,True) # force reparent (when Tag.STRICT_MODE)
 
 
     def clipboard(self,txt):
