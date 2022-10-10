@@ -25,19 +25,7 @@ it does all the same thing, but :
 
 """
 
-
 class PopMenu(Tag.div):
-    statics=b"""
-function popxy(tag,x,y) {
-    tag.style="position:fixed;z-index:10;padding:2px;left:"+x+"px;top:"+y+"px";
-    let bw=document.body.clientWidth;
-    let bh=document.body.clientHeight;
-    let w=tag.clientWidth;
-    let h=tag.clientHeight;
-    if(x+w > bw) popxy(tag,bw-w,y);
-    else if(y+h > bh) popxy(tag,x,bh-h);
-}
-    """
     def init(self,entries,x,y):
         omenu=Tag.ul(_class="menu-list")
         for obj in entries:
@@ -51,10 +39,24 @@ function popxy(tag,x,y) {
             _onclick=self.close,
             _style="background-color:inherit;z-index:9"
         )
+
+        js="""(function(tag,x,y) {
+            tag.style="position:fixed;z-index:10;padding:2px;left:"+x+"px;top:"+y+"px";
+            let bw=document.body.clientWidth;
+            let bh=document.body.clientHeight;
+            let w=tag.clientWidth;
+            let h=tag.clientHeight;
+            
+            if(x+w > bw) x=bw-w;
+            if(y+h > bh) y=bh-h;
+            
+            tag.style="position:fixed;z-index:10;padding:2px;left:"+x+"px;top:"+y+"px";
+        })(tag,%s,%s)"""
+        
         self += Tag.div(
             Tag.aside( omenu,_class="menu"),
             _class="card",
-            js="popxy(tag,%s,%s)" % (x,y),
+            js=js % (x,y),
         )
 
     def close(self,o=None):
