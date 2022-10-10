@@ -27,6 +27,17 @@ it does all the same thing, but :
 
 
 class PopMenu(Tag.div):
+    statics=b"""
+function popxy(tag,x,y) {
+    tag.style="position:fixed;z-index:10;padding:2px;left:"+x+"px;top:"+y+"px";
+    let bw=document.body.clientWidth;
+    let bh=document.body.clientHeight;
+    let w=tag.clientWidth;
+    let h=tag.clientHeight;
+    if(x+w > bw) popxy(tag,bw-w,y);
+    else if(y+h > bh) popxy(tag,x,bh-h);
+}
+    """
     def init(self,entries,x,y):
         omenu=Tag.ul(_class="menu-list")
         for obj in entries:
@@ -43,12 +54,12 @@ class PopMenu(Tag.div):
         self += Tag.div(
             Tag.aside( omenu,_class="menu"),
             _class="card",
-            _style=f"position:fixed;z-index:10;padding:2px;left:{x}px;top:{y}px",
+            js="popxy(tag,%s,%s)" % (x,y),
         )
 
     def close(self,o=None):
         self.remove()
-
+  
 class Modal(Tag.div):
     def init(self, content, canClose=True, full=False):
         self["class"] = "modal is-active"
