@@ -94,7 +94,7 @@ class Modal(Tag.div):
         if valid is False:
             self.close(self)
 
-    def close(self,o):
+    def close(self,o=None):
         self.remove()
 
 
@@ -106,7 +106,7 @@ class Toast(Tag.div):
         self+= Tag.button(_class="delete", _onclick=self.close)
         self+= content
 
-    def close(self,o):
+    def close(self,o=None):
         self.remove()
 
 class Service(TagBulma):
