@@ -61,12 +61,19 @@ class Page(Tag.body):
         f.addField("Size", b.Range(10,_min=0, _max=100, **commons))
         f.addField("Ok with that", b.Checkbox(False,"Sure?", **commons))
 
+
         tab = b.Tabs()
         tab.addTab("Tab1", group1)
         tab.addTab("Tab2", split)
         tab.addTab("Tab3", table)
         tab.addTab("Tab4", b.FileSelect(".", showFile,"*.py"))
         tab.addTab("A form", f + b.Loader())
+
+        #-------------------- rte demo
+        rte=b.RichText("<b>Hello</b> <i>world</i>",onsave=lambda o: self.s.toast(o.value))
+        tab.addTab("A RightText Editor", rte + b.Button("save",_onclick=rte.save ))
+        #--------------------
+
         tab.selected = "Tab2"
 
         def action(v):

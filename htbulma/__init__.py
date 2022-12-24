@@ -47,9 +47,11 @@ from .tabs import Tabs
 from .tags import Tags
 from .fileselect import FileSelect
 from .fileupload import FileUpload
+
+from .rte import RichText # happy christmas 2022!
 ########################################
 
 
-ALL = [Content, Button, A, Progress, Box,VBox,HBox, Section, Fields, Form, Input,Range,Checkbox,Radio,SelectButtons,TabsHeader,Select,Textarea, HSplit,VSplit, MBox,Toaster,PopMenu,Clipboard, Nav, NavSide, Table, Tabs, Tags, FileSelect, FileUpload, Flex,VFlex,HFlex, Service]
+ALL = [Content, Button, A, Progress, Box,VBox,HBox, Section, Fields, Form, Input,Range,Checkbox,Radio,SelectButtons,TabsHeader,Select,Textarea, HSplit,VSplit, MBox,Toaster,PopMenu,Clipboard, Nav, NavSide, Table, Tabs, Tags, FileSelect, FileUpload, Flex,VFlex,HFlex, Service, RichText]
 
 
