@@ -28,7 +28,7 @@ class App(Tag.body):
             rte.value = contentJ
 
         # build ui
-        rte=RichText(contentH, onsave=show, _onchange=show)
+        rte=RichText(contentH, onsave=show)
         result = Tag.div()
 
         # draw ui
