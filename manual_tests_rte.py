@@ -28,13 +28,13 @@ class App(Tag.body):
             rte.value = contentJ
 
         # build ui
-        rte=RichText(contentH,onsave=show)
+        rte=RichText(contentH, onsave=show, _onchange=show)
         result = Tag.div()
 
         # draw ui
         self += rte
-        self += Tag.button("save html",_onclick=rte.save )
-        self += Tag.button("save json",_onclick=rte.saveJSON )
+        self += Tag.button("save html",_onclick=rte.eventSave() )
+        self += Tag.button("save json",_onclick=rte.eventSave(True) )
         self += Tag.button("set html",_onclick=setterH )
         self += Tag.button("set json",_onclick=setterJ )
         self += result

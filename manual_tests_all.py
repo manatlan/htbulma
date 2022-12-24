@@ -71,7 +71,7 @@ class Page(Tag.body):
 
         #-------------------- rte demo
         rte=b.RichText("<b>Hello</b> <i>world</i>",onsave=lambda o: self.s.toast(o.value))
-        tab.addTab("A RightText Editor", rte + b.Button("save",_onclick=rte.save ))
+        tab.addTab("A RightText Editor", rte + b.Button("save",_onclick=rte.eventSave() ))
         #--------------------
 
         tab.selected = "Tab2"
