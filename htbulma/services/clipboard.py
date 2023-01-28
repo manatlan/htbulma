@@ -19,13 +19,13 @@ class Clipboard(Tag.div):
 
     def copy(self,txt):
         assert "`" not in txt # ;-)
-        self("""
+        self.call("""
 let ta = document.createElement('textarea');
 ta.value = `%s`;
-tag.appendChild(ta);
+self.appendChild(ta);
 ta.select();
 document.execCommand('copy');
-tag.removeChild(ta);
+self.removeChild(ta);
 """ % txt)
 
 if __name__=="__main__":

@@ -52,7 +52,7 @@ class MBox(TagBulma):
             Tag.div(_style="flex: 1 0 25%;"),
             Tag.div(_style="flex: 1 0 25%;"),
             Button(txtko, _onclick=self.bind._confirm(0), _class="is-light",_style="flex: 1 0 25%;"),
-            Button(txtok, _onclick=self.bind._confirm(1), js="tag.focus()",_onkeyup = js , _style="flex: 1 0 25%;"),
+            Button(txtok, _onclick=self.bind._confirm(1), js="self.focus()",_onkeyup = js , _style="flex: 1 0 25%;"),
         )
         self.show(main, canClose=True)
 
@@ -70,7 +70,7 @@ class MBox(TagBulma):
 
         js =  """if (event.keyCode === 13) {event.preventDefault();%s;}""" % self.bind._prompt(b"this.value")
         js += """if (event.keyCode === 27) {event.preventDefault();%s;}""" % self.bind._prompt()
-        input = Tag.input(_value=defaultValue, js="tag.focus();tag.setSelectionRange(0, tag.value.length)", _class="input", _onkeyup = js)
+        input = Tag.input(_value=defaultValue, js="self.focus();self.setSelectionRange(0, self.value.length)", _class="input", _onkeyup = js)
 
         main = Content( Tag.h3(title) )
         main <= input

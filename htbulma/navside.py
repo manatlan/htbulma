@@ -102,5 +102,5 @@ function hideMenu()   { document.body.classList.remove("menuShow") }
 
     def hide(self):
         """ hide menu if on mobile """
-        self("""hideMenu()""")
+        self.call("""hideMenu()""")
 

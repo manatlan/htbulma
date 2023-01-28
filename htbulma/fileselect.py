@@ -71,7 +71,7 @@ function FileSelect_select(id) {
         path = os.path.realpath(os.path.join(self.path,o.path))
         assert path.startswith(self._root)
         self._selected = o.path
-        self(f"""FileSelect_select('{id(o)}')""")
+        self.call(f"""FileSelect_select('{id(o)}')""")
         self.onselect(path)
 
 if __name__=="__main__":

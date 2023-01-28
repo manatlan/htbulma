@@ -54,7 +54,7 @@ class RichText(Tag.div):
             ]
 
         self.js="""
-            tag.ed = new Quill(tag, {
+            self.ed = new Quill(self, {
               modules: {
                 toolbar: %s,
               },
@@ -62,11 +62,11 @@ class RichText(Tag.div):
               theme: %s,
             });
 
-            tag.getValue = function(asDelta) {
+            self.getValue = function(asDelta) {
                 if(asDelta)
-                    return tag.ed.getContents();
+                    return self.ed.getContents();
                 else
-                    return tag.ed.root.innerHTML;
+                    return self.ed.root.innerHTML;
             }
 
             """ % (
@@ -91,13 +91,13 @@ class RichText(Tag.div):
             if init:
                 self.set( value )
             else:
-                self( f"tag.ed.setContents(tag.ed.clipboard.convert(`{value}`) ,'silent');" )
+                self.call( f"self.ed.setContents(self.ed.clipboard.convert(`{value}`) ,'silent');" )
         else:
-            cmd=f"tag.ed.setContents( {json.dumps(value)}, 'silent')"
+            cmd=f"self.ed.setContents( {json.dumps(value)}, 'silent')"
             if init:
                 self.js += cmd
             else:
-                self( cmd )
+                self.call( cmd )
 
     def eventSave(self,asJson=False) -> "js call":
         tag=f"document.getElementById('{id(self)}')".encode()

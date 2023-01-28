@@ -15,7 +15,7 @@ class Form(Tag.form):
     def __init__(self,onsubmit=None,**a):
         Tag.__init__(self,**a)
         # rewrite the form.submit() (bicoz this method doesn't call the onsubmit ;-( )
-        self.js = """tag.submit=function() {%s}""" % self.bind._onsubmit(b"JSON.stringify(Object.fromEntries(new FormData(this)))")
+        self.js = """self.submit=function() {%s}""" % self.bind._onsubmit(b"JSON.stringify(Object.fromEntries(new FormData(this)))")
 
         self["onsubmit"]="event.preventDefault();this.submit()"
         self._callback = onsubmit

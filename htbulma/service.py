@@ -37,22 +37,23 @@ class PopMenu(Tag.div):
         self += Tag.div(
             _class="modal-background",
             _onclick=self.close,
-            _style="background-color:inherit;z-index:9"
+            _oncontextmenu = self.bind( self.close ) + "return false",
+            _style="background-color:inherit;z-index:1000000"
         )
 
         js="""(function(tag,x,y) {
-            tag.style="position:fixed;z-index:10;padding:2px;left:"+x+"px;top:"+y+"px";
+            tag.style="position:fixed;z-index:1000001;padding:2px;left:"+x+"px;top:"+y+"px";
             let bw=document.body.clientWidth;
             let bh=document.body.clientHeight;
             let w=tag.clientWidth;
             let h=tag.clientHeight;
-            
+
             if(x+w > bw) x=bw-w;
             if(y+h > bh) y=bh-h;
-            
-            tag.style="position:fixed;z-index:10;padding:2px;left:"+x+"px;top:"+y+"px";
-        })(tag,%s,%s)"""
-        
+
+            tag.style="position:fixed;z-index:1000001;padding:2px;left:"+x+"px;top:"+y+"px";
+        })(self,%s,%s)"""
+
         self += Tag.div(
             Tag.aside( omenu,_class="menu"),
             _class="card",
@@ -61,7 +62,7 @@ class PopMenu(Tag.div):
 
     def close(self,o=None):
         self.remove()
-  
+
 class Modal(Tag.div):
     def init(self, content, canClose=True, full=False):
         self["class"] = "modal is-active"
@@ -81,7 +82,7 @@ class Modal(Tag.div):
             Tag.div(
                 content,
                 _tabindex=0,
-                js="tag.focus()",
+                js="self.focus()",
                 _style="outline: none" + ("height:100%;overflow-y:auto" if full else ""),
                 _class="box",
             ),
@@ -128,13 +129,13 @@ class Service(TagBulma):
         self._reroot()
 
         assert "`" not in txt # ;-)
-        self("""
+        self.call("""
 let ta = document.createElement('textarea');
 ta.value = `%s`;
-tag.appendChild(ta);
+self.appendChild(ta);
 ta.select();
 document.execCommand('copy');
-tag.removeChild(ta);
+self.removeChild(ta);
 """ % txt)
 
 
@@ -157,10 +158,10 @@ tag.removeChild(ta);
 
         x=Toast(content)
         self += x
-        # prefer the self() way, to send the js for this case
+        # prefer the self.call() way, to send the js for this case
         # because with x.js, js is re-executed at each redraw
         # and can cause dead objects (when event reach server)
-        self("""setTimeout(function(){%s},%s);""" % (x.bind.close(None),delay))
+        self.call("""setTimeout(function(){%s},%s);""" % (x.bind.close(None),delay))
         return x
 
     def alert(self, content, canClose=True, full=False):
@@ -202,7 +203,7 @@ tag.removeChild(ta);
         """ "same" signature as js window.prompt() """
         self._reroot()
 
-        input = Tag.input(_value=defaultValue, js="tag.focus();tag.setSelectionRange(0, tag.value.length)", _class="input")
+        input = Tag.input(_value=defaultValue, js="self.focus();self.setSelectionRange(0, self.value.length)", _class="input")
 
         bko=Button(txtko, _class="is-light", _style="flex: 1 0 25%;")
         bok=Button(txtok, _style="flex: 1 0 25%;")

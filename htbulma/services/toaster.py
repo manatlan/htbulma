@@ -30,7 +30,7 @@ class Toaster(TagBulma):
         o.add( Tag.button(_class="delete", _onclick=jsclose) )
         o.add( content )
 
-        self("""setTimeout(function() {%s;},%s);""" % (jsclose,delay))
+        self.call("""setTimeout(function() {%s;},%s);""" % (jsclose,delay))
 
         self <= o
 

@@ -282,7 +282,7 @@ class SelectButtons(Tag.div,Options,NewInput):
 
     def _set(self,value):
         self._value = self.fix_value_if_options(value)
-        self( self["onchange"] )
+        self.call( self["onchange"] )
         self._redraw()
 
 class TabsHeader(SelectButtons):
