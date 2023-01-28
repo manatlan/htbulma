@@ -19,7 +19,7 @@ classifiers = [
 [tool.poetry.dependencies]
 # https://python-poetry.org/docs/dependency-specification/
 python = "^3.7"
-htag = "^0.8"
+htag = "^0.9"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.0"
