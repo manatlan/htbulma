@@ -74,7 +74,7 @@ class RichText(Tag.div):
             edit and "false" or "true",
             edit and "'snow'" or "false",
             )
-        self.setValue(value,init=True)
+        self.setValue(value)
 
 
     @property
@@ -85,19 +85,12 @@ class RichText(Tag.div):
     def value(self,value):
         self.setValue(value)
 
-    def setValue(self,value:"str or delta",init:bool=False):
+    def setValue(self,value:"str or delta"):
         self._value=value
         if isinstance(value,str):
-            if init:
-                self.set( value )
-            else:
-                self.call( f"self.ed.setContents(self.ed.clipboard.convert(`{value}`) ,'silent');" )
+            self.js += f"self.ed.setContents(self.ed.clipboard.convert(`{value}`) ,'silent');" 
         else:
-            cmd=f"self.ed.setContents( {json.dumps(value)}, 'silent')"
-            if init:
-                self.js += cmd
-            else:
-                self.call( cmd )
+            self.js += f"self.ed.setContents( {json.dumps(value)}, 'silent')"
 
     def eventSave(self,asJson=False) -> "js call":
         tag=f"document.getElementById('{id(self)}')".encode()
