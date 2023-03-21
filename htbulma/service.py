@@ -83,7 +83,7 @@ class Modal(Tag.div):
                 content,
                 _tabindex=0,
                 js="self.focus()",
-                _style="outline: none" + ("height:100%;overflow-y:auto" if full else ""),
+                _style="outline: none;" + ("height:100%;overflow-y:auto" if full else ""),
                 _class="box",
             ),
             _class="modal-content",
