@@ -55,3 +55,93 @@ from .rte import RichText # happy christmas 2022!
 ALL = [Content, Button, A, Progress, Box,VBox,HBox, Section, Fields, Form, Input,Range,Checkbox,Radio,SelectButtons,TabsHeader,Select,Textarea, HSplit,VSplit, MBox,Toaster,PopMenu,Clipboard, Nav, NavSide, Table, Tabs, Tags, FileSelect, FileUpload, Flex,VFlex,HFlex, Service, RichText]
 
 
+#################################################################
+import json,os
+
+class Storage:
+
+    def __init__(self):
+        self._d={}
+
+    def __getitem__(self,k:str):
+        return self._d.get(k)
+
+    def keys(self):
+        return self._d.keys()
+    def items(self):
+        return self._d.items()
+
+    def __repr__(self):
+        if self._d:
+            return f"[{self.__class__.__name__} '{self._k}' {len(self.keys())}key(s) {len(json.dumps(self._d))}octets]"
+        else:
+            return f"[{self.__class__.__name__} '{self._k}' non-existent]"
+
+
+class LocalStorage(Storage):
+    """
+    imitate a dict, stored in localStorage/js
+
+    !!! can't work in pyscript env (security concerns) !!!
+    """
+    def __init__(self,loaded:"method",key=None):
+        """ 'loaded' is a main method of the instance htag which is called when localstorage is restored.
+            'key' can be the name of the localstorage item, if not, it's the classname of the instance.
+        """
+        Storage.__init__(self)
+        parent = loaded.__self__
+        if key is None: key=parent.__class__.__name__
+        self.parent=parent
+        self._k=key
+
+        def _localstorage_loader(jzon:str):
+            if jzon:
+                self._d = json.loads(jzon)
+            else:
+                self._d={}
+            loaded()
+
+        self.parent._localstorage_loader=_localstorage_loader
+        self.parent.call._localstorage_loader( f"localStorage.getItem('{self._k}')".encode() )
+
+    def clear(self):
+        self._d={}
+        self.parent.call(f"""localStorage.removeItem('{self._k}');""")
+
+    def __setitem__(self,k:str,v):
+        self._d[k]=v
+        self.parent.call(f"""localStorage.setItem('{self._k}', JSON.stringify({json.dumps(self._d)}) );""")
+
+
+
+class ServerStorage(Storage):
+    """
+    can act as a serverstorage (everybody with the same file)
+    or as a userstorage (a file per user)
+    """
+    def __init__(self,name,path=""):
+        Storage.__init__(self)
+        self.file=os.path.join(path,f"ServerStorage_{name}.json")
+        self._k=self.file
+
+        if os.path.isfile(self.file):
+            with open(self.file,"r+") as fid:
+                self._d=json.load(fid)
+        else:
+            self._d={}
+
+    def clear(self):
+        self._d={}
+        if os.path.isfile(self.file):
+            os.unlink(self.file)
+
+    def __setitem__(self,k:str,v):
+        self._d[k]=v
+
+        folder=os.path.dirname(self.file)
+        if folder and not os.path.isdir(folder):
+            os.makedirs(folder)
+
+        with open(self.file,"w+") as fid:
+            json.dump(self._d,fid,indent=4)
+
