@@ -17,4 +17,6 @@ Theses are my components, for my quick's htag apps ;-), for demo'ing the htag go
 
 I'd love too see a real module, well maintained, with high-end and clever components (but I have no time to manage that, focusing on other projects (ex: htag))
 
-[See an example](test.py)
+ - [See an example (in client side only (pyscript))](https://raw.githack.com/manatlan/htag/main/examples/pyscript_htbulma.html)
+ - [See an example (in server side (on glitch.com))](https://htag.glitch.me/Test?app=c99)
+
