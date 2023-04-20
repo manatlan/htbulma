@@ -39,7 +39,7 @@ div.menupop {
     bottom:0px;
     left:0px;
     width: var(--ns-width);
-    height:100%;
+    height:100%%;
     overflow:auto;
     background:white;
 
@@ -58,35 +58,23 @@ body {
 .onlyBig   { display:inherit }
 .onlySmall { display:none }
 
-@media (max-width: 800px) {
-
-    div.menupop { left: var(--ns-width-mobile-sub) }
-
-    body { padding-left:0px !important }
-
-    .menuShow div.menupop {
-        left: 0px;
-        width: var( --ns-width-mobile );
-    }
-    .menuShow div.backmenu { display:block }
-
-    .onlyBig   { display:none }
-    .onlySmall { display:inherit }
-
-}"""),
+"""),
         Tag.script("""
 function switchMenu() { document.body.classList.toggle("menuShow") }
 function hideMenu()   { document.body.classList.remove("menuShow") }
 """)
     )
-    def init(self,title,sidecontent,width:str="200px",width_small:str="80%",class_color:str="is-black", **a):
+    def init(self,title,sidecontent,width:str="200px",width_small:str="80%",width_min="800px",class_color:str="is-black", **a):
+        """
+        width: is the default width of the side menu (default "200px")
+        width_small: is the % of full width, taken when the menu burder is displayed (default 80%)
+        width_min: is the minimal full width when burger is avalaible (default "800px")
+        """
 
         bb=Tag.div("&#9776;",_class="aburger onlySmall",_onclick="switchMenu()")
 
         nav= Tag.nav(_role="navigation",_aria_label="main navigation", _class="navbar is-fixed-top "+class_color)
         nav <= Tag.div(_class="navbar-brand") <= Tag.span(bb + title,  _class="navbar-item")
-
-        width_m="80%"
 
         self <= Tag.style(f"""
 :root {{
@@ -95,6 +83,24 @@ function hideMenu()   { document.body.classList.remove("menuShow") }
   --ns-width-mobile: {width_small};
   --ns-width-mobile-sub: -{width_small};
 }}
+
+@media (max-width: {width_min}) {{
+
+    div.menupop {{ left: var(--ns-width-mobile-sub) }}
+
+    body {{ padding-left:0px !important }}
+
+    .menuShow div.menupop {{
+        left: 0px;
+        width: var( --ns-width-mobile );
+    }}
+    .menuShow div.backmenu {{ display:block }}
+
+    .onlyBig   {{ display:none }}
+    .onlySmall {{ display:inherit }}
+
+}}
+
         """)
         self <= nav
         self <= Tag.div(_class="backmenu click",_onclick="switchMenu()")    # greyed background

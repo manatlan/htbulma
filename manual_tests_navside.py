@@ -20,7 +20,6 @@ class App(Tag.body):
             b.A( "Hello2", _onclick = self.test),
             b.Button( "Hello3", _onclick = self.test),
         )
-
         self.sidebar = b.NavSide( "MyAppFonce",menu, class_color="fonce" )
         #~ self.sidebar = NavSide( "MyAppClaire",menu, class_color="clair" )
         #~ self.sidebar = NavSide( "MyApp",menu )
