@@ -67,7 +67,7 @@ function hideMenu()   { document.body.classList.remove("menuShow") }
     def init(self,title,sidecontent,width:str="200px",width_small:str="80%",width_min="800px",class_color:str="is-black", **a):
         """
         width: is the default width of the side menu (default "200px")
-        width_small: is the % of full width, taken when the menu burder is displayed (default 80%)
+        width_small: is the % of full width, taken when the menu burger is displayed (default 80%)
         width_min: is the minimal full width when burger is avalaible (default "800px")
         """
 
