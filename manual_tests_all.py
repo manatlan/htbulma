@@ -112,6 +112,7 @@ class Page(Tag.body):
 # logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',level=logging.DEBUG)
 # logging.getLogger("htag.tag").setLevel( logging.INFO )
 
+App=Page
 
 from htag.runners import DevApp as Runner
 r=Runner( Page )

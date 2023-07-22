@@ -80,6 +80,7 @@ class Test(Tag.body):
 
     def formSubmit(self, f:dict):
         print( json.dumps(f,indent=4) )
+App = Test
 
 app=DevApp(Test)
 if __name__=="__main__":
