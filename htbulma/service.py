@@ -191,7 +191,7 @@ self.removeChild(ta);
             ko=lambda o: None
 
         x=Modal(main, canClose=True)
-        x.onkey = lambda valid: x( f"document.getElementById('{id(valid and bok or bko)}').click()" )
+        x.onkey = lambda valid: x.call( f"document.getElementById('{id(valid and bok or bko)}').click()" )
         bok["onclick"].bind(ok).bind(x.close)
         bko["onclick"].bind(ko).bind(x.close)
 
@@ -223,7 +223,7 @@ self.removeChild(ta);
             o.value = x
 
         x=Modal(main, canClose=True, full=False)
-        x.onkey = lambda valid: x( f"document.getElementById('{id(valid and bok or bko)}').click()" )
+        x.onkey = lambda valid: x.call( f"document.getElementById('{id(valid and bok or bko)}').click()" )
 
         js_get_value = b"document.getElementById('%d').value" % id(input)
         bok["onclick"].bind( getv, js_get_value ).bind(ok).bind(x.close)
