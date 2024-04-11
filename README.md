@@ -2,6 +2,9 @@
 
 Example of gui toolkit using [htag](https://github.com/manatlan/htag).
 
+**PROJECT CANCELLED** ... see [HtagUI][https://github.com/manatlan/htagui]. It's basically the same thing, but will be maintained for public ... It exposes less objects, but it exposes the best ones, and will be rock-solid (a day)
+
+
 <a href="https://pypi.org/project/htbulma/">
     <img src="https://badge.fury.io/py/htbulma.svg" alt="Package version">
 </a>
